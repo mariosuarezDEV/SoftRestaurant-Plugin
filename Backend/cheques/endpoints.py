@@ -1,6 +1,6 @@
-from models import cheque_venta, detalle_cheque # Modelos cargados en la base de datos
+from .models import cheque_venta, detalle_cheque # Modelos cargados en la base de datos
 
-from serializers import ChequeVentaSerializer, ChequeDetalleSerializer # Estas clases controlan las serializaciones de los modelos
+from .serializers import ChequeVentaSerializer, ChequeDetalleSerializer # Estas clases controlan las serializaciones de los modelos
 
 from rest_framework import viewsets # Importar el viewset de la API
 from rest_framework import permissions # Importar los permisos de la API
