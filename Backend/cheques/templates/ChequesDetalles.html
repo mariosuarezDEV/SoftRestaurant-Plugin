@@ -21,16 +21,11 @@
 
             <div class="row">
                 <div class="col-12">
-                    <!-- Filtrar los datos por fecha -->
+                    <!-- Filtrar los datos por folio -->
                     <form action="{%  url 'ChequesDetalles' %}" method="post" class="row d-flex flex-row align-items-center gap-3">
                         {%  csrf_token %}
                         <div class="col-12 col-md-5">
-                            <label for="fecha">Desde:</label>
-                            <input type="date" name="fecha-inicio" id="fecha" class="form-control">
-                        </div>
-                        <div class="col-12 col-md-5">
-                            <label for="fecha">A:</label>
-                            <input type="date" name="fecha-fin" id="fecha" class="form-control">
+                            <input type="text" placeholder="Buscar por folio" name="folio_buscado" id="fecha" class="form-control">
                         </div>
                         <div class="col-12 col-md-2">
                             <button class="btn btn-primary">Buscar cheques</button>

@@ -42,6 +42,43 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Fecha</th>
+                            <th>Mesa</th>
+                            <th>Estado de facturación</th>
+                            <th>Total de productos</th>
+                            <th>Subtotal</th>
+                            <th>Total</th>
+                            <th>Método de pago</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cheque in cheques %}
+                            <tr>
+                                <td>{{ cheque.folio }}</td>
+                                <td>{{ cheque.fecha_movimiento }}</td>
+                                <td>{{ cheque.mesa }}</td>
+                                <td>{% if cheque.factura == False %}Sin facturar {% else %}Facturado{% endif %}</td>
+                                <td>{{ cheque.total_articulos }}</td>
+                                <td>{{ cheque.subtotal }}</td>
+                                <td>{{ cheque.total }}</td>
+                                <td>{{ cheque.tipo_pago }}</td>
+                                <td>
+                                    <a href="" class="btn btn-primary">null</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 {% endblock %}
