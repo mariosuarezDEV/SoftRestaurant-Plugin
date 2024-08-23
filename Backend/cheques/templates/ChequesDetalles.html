@@ -54,11 +54,20 @@
                                 <th>Precio</th>
                                 <th>Impuesto</th>
                                 <th>Precio sin impuesto</th>
-                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-
+                            {% for detalle_cheque in cheques_detalles %}
+                                <tr>
+                                    <td>{{ detalle_cheque.folio_det }}</td>
+                                    <td>{{ detalle_cheque.movimiento }}</td>
+                                    <td>{{ detalle_cheque.cantidad }}</td>
+                                    <td>{{ detalle_cheque.id_producto }}</td>
+                                    <td>{{ detalle_cheque.precio }}</td>
+                                    <td>{{ detalle_cheque.impuesto_uno }}</td>
+                                    <td>{{ detalle_cheque.precio_sin_impuesto }}</td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
