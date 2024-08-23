@@ -14,5 +14,8 @@ router.register("chequedet", ChequeDetalleViewSet) # Registrar el modelo detalle
 urlpatterns = [
     path("", views.chequesIndexView, name='ChequesIndex'), # Agregar la url de la app cheques
     path("detalles/", views.chequesDetallesView, name='ChequesDetalles'), # Agregar la url de la app cheques
+    path("desbloquear/<int:folio>/", views.desbloquearCheque, name='DesbloquearCheque'), # Agregar la url de la app cheques
+    path("bloquear/<int:folio>/", views.bloquearCheque, name='BloquearCheque'), # Agregar la url de la app cheques
+    path("eliminar/<int:folio>/", views.eliminarCheque, name='EliminarCheque'), # Agregar la url de la
     path('api/', include(router.urls), name="ChequesAPI"), # Agregar las urls del router
 ]

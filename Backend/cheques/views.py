@@ -1,8 +1,8 @@
 import datetime
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from .models import cheque_venta, detalle_cheque
+from .models import cheque_venta, detalle_cheque, estados_cheque
 
 # Create your views here.
 
@@ -42,3 +42,23 @@ def chequesDetallesView(request):
         elif fecha_inicio > fecha_fin:
             return render(request, "ChequesDetalles.html", {"error": "La forma en la que quieres filtrar los cheques es incorrecta", 'cheques_detalles': datos})
 
+def desbloquearCheque(request, folio):
+    cheque = cheque_venta.objects.get(folio=folio)
+    cheque.bloqueado = False
+    cheque.save()
+    return redirect('ChequesIndex') # Redirige a la vista de cheques
+
+def bloquearCheque(request, folio):
+    cheque = cheque_venta.objects.get(folio=folio)
+    cheque.bloqueado = True
+    cheque.save()
+    return redirect('ChequesIndex') # Redirige a la vista de cheques
+
+def eliminarCheque(request, folio):
+    cheque = cheque_venta.objects.get(folio=folio)
+    cheque.delete()
+    # Eliminar los detalles del cheque
+    detalles = detalle_cheque.objects.filter(folio_det=folio)
+    for detalle in detalles:
+        detalle.delete()
+    return redirect('ChequesIndex') # Redirige a la vista de cheques
