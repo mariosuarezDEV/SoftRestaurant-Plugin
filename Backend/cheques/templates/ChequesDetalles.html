@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-mx">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,21 +12,64 @@
     {% block contenido %}
         <div class="container">
             <div class="row">
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 mb-2">
                     <h1 class="display-4">
                         Detalles de cheques
                     </h1>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Filtrar los datos por fecha -->
-                    </div>
             </div>
-        </div>  
+
+            <div class="row">
+                <div class="col-12">
+                    <!-- Filtrar los datos por fecha -->
+                    <form action="{%  url 'ChequesDetalles' %}" method="post" class="row d-flex flex-row align-items-center gap-3">
+                        {%  csrf_token %}
+                        <div class="col-12 col-md-5">
+                            <label for="fecha">Desde:</label>
+                            <input type="date" name="fecha-inicio" id="fecha" class="form-control">
+                        </div>
+                        <div class="col-12 col-md-5">
+                            <label for="fecha">A:</label>
+                            <input type="date" name="fecha-fin" id="fecha" class="form-control">
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <button class="btn btn-primary">Buscar cheques</button>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <b><p class="text-danger "> {{ error }}</p></b>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Folio</th>
+                                <th>Movimiento</th>
+                                <th>Cantidad productos</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Impuesto</th>
+                                <th>Precio sin impuesto</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  </body>
     {% endblock %}
+</body>
+
 </body>
 </html>

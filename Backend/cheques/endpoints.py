@@ -18,4 +18,3 @@ class ChequeDetalleViewSet(viewsets.ModelViewSet):
     queryset = detalle_cheque.objects.all() # Consultar todos los registros de detalle_cheque
     serializer_class = ChequeDetalleSerializer # Serializar los registros de detalle_cheque
     permission_classes = [permissions.AllowAny] # Permisos para el endpoint
-    
