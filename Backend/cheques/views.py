@@ -17,9 +17,14 @@ def chequesIndexView(request):
         fecha_fin = request.POST.get('fecha-fin')
 
         if fecha_inicio == "" or fecha_fin == "": # las fechas no pueden estar vacias
-            return render(request, "ChequesIndex.html", {"error": "Debes ingresar ambas fechas"})
+            return render(request, "ChequesIndex.html", {"error": "Debes ingresar ambas fechas", 'cheques': cheques})
         elif fecha_inicio > fecha_fin:
-            return render(request, "ChequesIndex.html", {"error": "La forma en la que quieres filtrar los cheques es incorrecta"})
+            return render(request, "ChequesIndex.html", {"error": "La forma en la que quieres filtrar los cheques es incorrecta", 'cheques': cheques})
+        else:
+            cheques = cheque_venta.objects.filter(fecha_movimiento__range=[fecha_inicio, fecha_fin])
+            return render(request, "ChequesIndex.html",{
+                'cheques': cheques
+            })
 
 def chequesDetallesView(request):
     datos = detalle_cheque.objects.all()
