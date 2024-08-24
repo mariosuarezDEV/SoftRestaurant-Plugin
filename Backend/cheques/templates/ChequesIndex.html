@@ -72,22 +72,22 @@
                                     <td>{{ cheque.tipo_pago }}</td>
 
                                     {% if cheque.factura == True %}
-                                    <td class="">
-                                        
-                                    </td>
-                                    <td>
-                                       
-                                    </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
 
                                     {% elif cheque.tipo_pago == 'Tarjeta Débito' or cheque.tipo_pago == 'Tarjeta Crédito' %}
-                                    <td>
-                                    </td>
+                                        <td>
+                                        </td>
 
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                          </div>
-                                    </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                              </div>
+                                        </td>
 
                                     {% elif cheque.bloqueado == False %}
                                         <td class="">
@@ -110,16 +110,16 @@
                                         </td>
 
                                     {% else %}
-                                    <td class="">
-                                        <div class="dropdown col-md-4">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Acciones
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="{% url 'DesbloquearCheque' cheque.folio %}">Desbloquear</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
+                                        <td class="">
+                                            <div class="dropdown col-md-4">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Acciones
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="{% url 'DesbloquearCheque' cheque.folio %}">Desbloquear</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
                                         <td>
                                             
                                         </td>
@@ -143,7 +143,6 @@
                             </ul>
                         </div>
                         <button class="btn btn-danger col-md-4">Eliminar selección</button>
-                        <button class="btn btn-secondary col-md-3">Deseleccionar todos</button>
                     </div>
                 </form>
             </div>
