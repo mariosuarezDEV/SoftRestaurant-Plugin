@@ -61,6 +61,7 @@ def logoutView(request):
     logout(request)
     return redirect('LoginView')
 
+@login_required
 def pagoRequeridoView(request):
     return render(request, "PagoRequerido.html")
 
