@@ -83,17 +83,16 @@ DATABASES_SQLITE = {
     }
 }
 
+
 DATABASES = {
-    "default": {
-        "ENGINE": "mssql",
-        "NAME": "softrestaurant",
-        "USER": "USER_NAME",
-        "PASSWORD": "PASSWORD",
-        "HOST": "HOST_ADDRESS",
-        "PORT": "1433",
-        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server",
-        },
-    },
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'testing',
+        'USER': 'lmadmin',
+        'PASSWORD': 'edqnLMCSf31.',
+        'HOST': '192.168.100.89',
+        'PORT': '3306',
+    }
 }
 
 

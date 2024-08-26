@@ -54,13 +54,13 @@
                         <tbody class="table-group-divider">
                             {% for detalle_cheque in cheques_detalles %}
                                 <tr>
-                                    <td>{{ detalle_cheque.folio_det }}</td>
+                                    <td>{{ detalle_cheque.foliodet }}</td>
                                     <td>{{ detalle_cheque.movimiento }}</td>
                                     <td>{{ detalle_cheque.cantidad }}</td>
-                                    <td>{{ detalle_cheque.id_producto }}</td>
+                                    <td>{{ detalle_cheque.idproducto }}</td>
                                     <td>{{ detalle_cheque.precio }}</td>
-                                    <td>{{ detalle_cheque.impuesto_uno }}</td>
-                                    <td>{{ detalle_cheque.precio_sin_impuesto }}</td>
+                                    <td>{{ detalle_cheque.impuesto1 }}</td>
+                                    <td>{{ detalle_cheque.preciosinimpuestos }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
