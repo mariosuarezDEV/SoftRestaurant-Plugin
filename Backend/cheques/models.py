@@ -82,7 +82,7 @@ class detalle_cheque(models.Model):
     WorkspaceId = models.IntegerField()
 
     def __str__(self):
-        return f'Cheque con folio {self.folio_det}'
+        return f'Cheque con folio {self.foliodet}'
 
 class estados_cheque(models.Model):
     cheque_folio = models.AutoField(primary_key=True)

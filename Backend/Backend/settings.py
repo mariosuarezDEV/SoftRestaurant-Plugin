@@ -84,7 +84,7 @@ DATABASES_SQLITE = {
 }
 
 
-DATABASES = {
+DATABASES_mysql = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'testing',
@@ -94,6 +94,17 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+DATABASES = {
+        'default': {
+            'ENGINE': 'mssql',
+            'NAME': 'softrestaurant11',
+            'USER': 'sa',
+            'PASSWORD': 'National09',
+            'HOST': '192.168.100.47',
+            'PORT': '1433',
+        },
+    }
 
 
 # Password validation
