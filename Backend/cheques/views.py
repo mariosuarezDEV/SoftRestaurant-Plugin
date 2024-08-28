@@ -2,6 +2,7 @@ import datetime
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.utils.formats import date_format
 
 from .models import Cheques, Cheqdet
@@ -12,6 +13,8 @@ from .Funciones.Optimizaciones import optimizaciones
 
 from django.db import connection
 
+from django.core.paginator import Paginator
+
 clean_orm = optimizaciones()
 
 # Create your views here.
@@ -21,7 +24,8 @@ def chequesIndexView(request):
     if request.method == 'GET':
         try:
             cheques = clean_orm.get_cheques_loading()
-            request.session.pop('fecha_inicio_dia', None)  # Eliminar la session de la fecha
+            request.session.pop('fecha_inicio', None)  # Eliminar la session de la fecha
+            request.session.pop('fecha_fin', None)  # Eliminar la session de la fecha
             #print(request.session.get('fecha_inicio_dia'))
             return render(request, "ChequesIndex.html", {
                 'cheques': cheques
@@ -44,12 +48,18 @@ def chequesIndexView(request):
                 fecha_incio = datetime.datetime.strptime(fecha_incio, '%Y-%m-%d')
                 cheques = clean_orm.get_cheques_detalles_fecha_inicio(fecha_incio)
                 # Guardar le fecha en una session
-                request.session['fecha_inicio_dia'] = fecha_incio.strftime('%Y-%m-%d')
-                #print(request.session.get('fecha_inicio_dia'))
+                request.session['fecha_inicio'] = fecha_incio.strftime('%Y-%m-%d')
+
+                # Configurar la paginación
+                paginator = Paginator(cheques, 20)  # Mostrar 20 resultados por página
+                page_number = request.GET.get('page')  # Obtener el número de la página actual de la URL
+                page_obj = paginator.get_page(page_number)  # Obtener los resultados para la página actual
+
                 return render(request, "ChequesIndex.html", {
-                    'cheques': cheques,
+                    'cheques': page_obj,
                     'correcto': f'Devolviendo datos de la fecha: {fecha_incio}'
                 })  # Renderiza el template index.html
+
             except Exception as e:
                 return render(request, "ChequesIndex.html", {"error": f'Error: {e} - No se pueden mostrar los cheques con la fecha solicitada'})
         # Validar que la fecha fin sea mayor a la fecha inicio
@@ -58,7 +68,9 @@ def chequesIndexView(request):
         elif fecha_incio and fecha_fin:
             try:
                 fecha_incio = datetime.datetime.strptime(fecha_incio, '%Y-%m-%d')
+                request.session['fecha_inicio'] = fecha_incio.strftime('%Y-%m-%d')
                 fecha_fin = datetime.datetime.strptime(fecha_fin, '%Y-%m-%d')
+                request.session['fecha_fin'] = fecha_fin.strftime('%Y-%m-%d')
                 cheques = clean_orm.get_cheques_fechas(fecha_incio, fecha_fin)
 
                 return render(request, "ChequesIndex.html", {
@@ -71,10 +83,17 @@ def chequesIndexView(request):
             return render(request, "ChequesIndex.html", {"error": 'No se ha ingresado una fecha para buscar'})
 @login_required
 def chequesDetallesView(request):
+    # Obtener todos los datos
     datos = Cheqdet.objects.all()
+
+    # Configurar la paginación
+    paginator = Paginator(datos, 20)  # Mostrar 20 resultados por página
+    page_number = request.GET.get('page')  # Obtener el número de la página actual de la URL
+    page_obj = paginator.get_page(page_number)  # Obtener los resultados para la página actual
+
     return render(request, "ChequesDetalles.html", {
-        'cheques_detalles': datos
-    })  # Renderiza el template index.html
+        'page_obj': page_obj
+    })
 
 def loginView(request):
     if request.method == 'GET':
@@ -119,16 +138,38 @@ def bloquearCheque(request, folio):
 
 @login_required
 def eliminarCheque(request, folio):
-    cheque = Cheques.objects.get(folio=folio)
-    cheque.delete()
-    # Eliminar los detalles del cheque
-    detalles = Cheqdet.objects.filter(id=folio)
-    for detalle in detalles:
-        detalle.delete()
-    # Redirigir a la vista de cheques con un mensaje de confirmación
-    fecha_inicio = request.session.get('fecha_inicio_dia')
-    fecha_incio = datetime.datetime.strptime(fecha_inicio, '%Y-%m-%d')
-    return render(request, "ChequesIndex.html", {"correcto": "Cheque eliminado correctamente", "cheques": clean_orm.get_cheques_detalles_fecha_inicio(fecha_incio)})
+    try:
+        cheque = Cheques.objects.get(folio=folio)
+        cheque.delete()
+
+        # Eliminar los detalles del cheque
+        Cheqdet.objects.filter(foliodet=folio).delete()
+
+        # Redirigir a la vista de cheques con un mensaje de confirmación
+        fecha_inicio_str = request.session.get('fecha_inicio')
+        fecha_fin_str = request.session.get('fecha_fin')
+
+        # Asegúrate de que las fechas estén disponibles y conviértelas a objetos datetime
+        if fecha_inicio_str and not fecha_fin_str:
+            fecha_inicio = timezone.datetime.fromisoformat(fecha_inicio_str)
+            cheques = clean_orm.get_cheques_detalles_fecha_inicio(fecha_inicio)
+            return render(request, "ChequesIndex.html",
+                          {"correcto": "Cheque eliminado correctamente", "cheques": cheques})
+
+        elif fecha_inicio_str and fecha_fin_str:
+            fecha_inicio = timezone.datetime.fromisoformat(fecha_inicio_str)
+            fecha_fin = timezone.datetime.fromisoformat(fecha_fin_str)
+            cheques = clean_orm.get_cheques_fechas(fecha_inicio, fecha_fin)
+            return render(request, "ChequesIndex.html",
+                          {"correcto": "Cheque eliminado correctamente", "cheques": cheques})
+        else:
+            fecha_inicio = None
+            fecha_fin = None
+
+    except Cheques.DoesNotExist:
+        return render(request, "ChequesIndex.html", {"error": "Cheque no encontrado"})
+    except Exception as e:
+        return render(request, "ChequesIndex.html", {"error": str(e)})
 
 @login_required
 def actualizar_tabla(request):

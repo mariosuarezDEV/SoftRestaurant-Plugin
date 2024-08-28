@@ -148,6 +148,87 @@
                         <button class="btn btn-danger col-md-4">Eliminar selección</button>
                     </div>
                 </form>
+            <!-- Paginación -->
+
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if cheques.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1" aria-label="Primera">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ cheques.previous_page_number }}"
+                                   aria-label="Anterior">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% if cheques.paginator.num_pages > 5 %}
+                            {% if cheques.number > 3 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1">1</a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <span class="page-link">...</span>
+                                </li>
+                            {% endif %}
+
+                            {% for num in cheques.paginator.page_range %}
+                                {% if num >= cheques.number|add:"-2" and num <= cheques.number|add:"2" %}
+                                    {% if cheques.number == num %}
+                                        <li class="page-item active" aria-current="page">
+                                            <span class="page-link">{{ num }}</span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if cheques.number < cheques.paginator.num_pages|add:"-2" %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">...</span>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page={{ cheques.paginator.num_pages }}">{{ cheques.paginator.num_pages }}</a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            {% for num in cheques.paginator.page_range %}
+                                {% if cheques.number == num %}
+                                    <li class="page-item active" aria-current="page">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if cheques.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ cheques.next_page_number }}"
+                                   aria-label="Siguiente">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ cheques.paginator.num_pages }}"
+                                   aria-label="Última">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
         </div>
 

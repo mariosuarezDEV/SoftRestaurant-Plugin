@@ -1146,7 +1146,6 @@ class Cheqdet(models.Model):
     def __str__(self):
         return f'Detalle del Cheque {self.foliodet} - {self.idproducto}'
 
-
 class Cheqdetf(models.Model):
     foliodet = models.BigIntegerField(blank=True, null=True)
     movimiento = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
