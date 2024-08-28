@@ -10,7 +10,7 @@
 {% extends 'layouts/Navegacion.html' %}
 
 {% block contenido %}
-    <div class="container">
+    <div class="container mb-5">
         <div class="row">
             <div class="col-12 col-md-6 mb-2">
                 <h1 class="display-4">
@@ -25,12 +25,12 @@
                 <form action="{%  url 'ChequesIndex' %}" method="post" class="row d-flex flex-row align-items-center gap-3">
                     {%  csrf_token %}
                     <div class="col-12 col-md-5">
-                        <label for="fecha">Desde:</label>
-                        <input type="date" name="fecha-inicio" id="fecha" class="form-control">
+                        <label for="fecha-inicio">Desde:</label>
+                        <input type="date" name="fecha-inicio" id="fecha-inicio" class="form-control">
                     </div>
                     <div class="col-12 col-md-5">
-                        <label for="fecha">A:</label>
-                        <input type="date" name="fecha-fin" id="fecha" class="form-control">
+                        <label for="fecha-fin">A:</label>
+                        <input type="date" name="fecha-fin" id="fecha-fin" class="form-control">
                     </div>
                     <div class="col-12 col-md-2">
                         <button class="btn btn-primary">Buscar cheques</button>
@@ -61,17 +61,17 @@
                         </thead>
                         <tbody class="table-group-divider">
                             {% for cheque in cheques %}
-                                <tr class="{% if cheque.bloqueado == True %}table-warning{% elif cheque.factura == True %}table-warning{% endif %}">
+                                <tr class="{% if cheque.facturado == True or cheque.tarjeta != 0 %}table-warning{% endif %}">
                                     <td>{{ cheque.folio }}</td>
-                                    <td>{{ cheque.fecha_movimiento }}</td>
+                                    <td>{{ cheque.fecha }}</td>
                                     <td>{{ cheque.mesa }}</td>
-                                    <td>{% if cheque.factura == False %}Sin facturar {% else %}Facturado{% endif %}</td>
-                                    <td>{{ cheque.total_articulos }}</td>
+                                    <td>{% if cheque.facturado == False %}Sin facturar {% else %}Facturado{% endif %}</td>
+                                    <td>{{ cheque.totalarticulos }}</td>
                                     <td>{{ cheque.subtotal }}</td>
                                     <td>{{ cheque.total }}</td>
-                                    <td>{{ cheque.tipo_pago }}</td>
+                                    <td>{% if cheque.efectivo != 0 %}Efectivo {% elif cheque.tarjeta != 0 %}Tarjeta{% endif %}</td>
 
-                                    {% if cheque.factura == True %}
+                                    {% if cheque.facturado == True %}
                                         <td>
 
                                         </td>
@@ -79,7 +79,7 @@
 
                                         </td>
 
-                                    {% elif cheque.tipo_pago == 'Tarjeta Débito' or cheque.tipo_pago == 'Tarjeta Crédito' %}
+                                    {% elif cheque.tarjeta != 0 %}
                                         <td>
                                         </td>
 

@@ -2,7 +2,7 @@ import datetime
 
 from django.shortcuts import render, redirect
 
-from .models import cheque_venta, detalle_cheque, estados_cheque
+from .models import Cheques, Cheqdet
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
@@ -10,7 +10,8 @@ from django.contrib.auth import authenticate, login, logout
 
 @login_required
 def chequesIndexView(request):
-    cheques = cheque_venta.objects.all()
+    cheques = Cheques.objects.all()
+
     if request.method == 'GET':
         return render(request, "ChequesIndex.html",{
             'cheques': cheques
@@ -19,19 +20,27 @@ def chequesIndexView(request):
         fecha_inicio = request.POST.get('fecha-inicio')
         fecha_fin = request.POST.get('fecha-fin')
 
-        if fecha_inicio == "" or fecha_fin == "": # las fechas no pueden estar vacias
+        if fecha_fin == "": # Obtener solo los cheques de la fecha de inicio
+            # formatear la fecha de inicio
+            fecha_inicio = datetime.datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+            cheques = Cheques.objects.filter(fecha=fecha_inicio)
+
+            return render(request, "ChequesIndex.html", {
+                'cheques': cheques
+            })
+        elif fecha_inicio == "" or fecha_fin == "": # las fechas no pueden estar vacias
             return render(request, "ChequesIndex.html", {"error": "Debes ingresar ambas fechas", 'cheques': cheques})
         elif fecha_inicio > fecha_fin:
             return render(request, "ChequesIndex.html", {"error": "La forma en la que quieres filtrar los cheques es incorrecta", 'cheques': cheques})
         else:
-            cheques = cheque_venta.objects.filter(fecha_movimiento__range=[fecha_inicio, fecha_fin])
+            cheques = Cheques.objects.filter(fecha__range=[fecha_inicio, fecha_fin])
             return render(request, "ChequesIndex.html",{
                 'cheques': cheques
             })
 
 @login_required
 def chequesDetallesView(request):
-    datos = detalle_cheque.objects.all()
+    datos = Cheqdet.objects.all()
     return render(request, "ChequesDetalles.html", {
         'cheques_detalles': datos
     })  # Renderiza el template index.html
@@ -67,24 +76,24 @@ def pagoRequeridoView(request):
 
 @login_required
 def desbloquearCheque(request, folio):
-    cheque = cheque_venta.objects.get(folio=folio)
+    cheque = Cheques.objects.get(folio=folio)
     cheque.bloqueado = False
     cheque.save()
     return redirect('ChequesIndex') # Redirige a la vista de cheques
 
 @login_required
 def bloquearCheque(request, folio):
-    cheque = cheque_venta.objects.get(folio=folio)
+    cheque = Cheques.objects.get(folio=folio)
     cheque.bloqueado = True
     cheque.save()
     return redirect('ChequesIndex') # Redirige a la vista de cheques
 
 @login_required
 def eliminarCheque(request, folio):
-    cheque = cheque_venta.objects.get(folio=folio)
+    cheque = Cheques.objects.get(folio=folio)
     cheque.delete()
     # Eliminar los detalles del cheque
-    detalles = detalle_cheque.objects.filter(folio_det=folio)
+    detalles = Cheqdet.objects.filter(folio_det=folio)
     for detalle in detalles:
         detalle.delete()
     return redirect('ChequesIndex') # Redirige a la vista de cheques
