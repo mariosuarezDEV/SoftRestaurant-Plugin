@@ -51,7 +51,4 @@ El puerto puede ser diferente siempre y cuando este disponible.
 ```
 python manage.py runserver 0.0.0.0:80
 ```
-## Autor
-
-- [@mariosuarezDEV](https://github.com/mariosuarezDEV)
 
