@@ -25,18 +25,21 @@
                 <form action="{%  url 'ChequesIndex' %}" method="post" class="row d-flex flex-row align-items-center gap-3">
                     {%  csrf_token %}
                     <div class="col-12 col-md-5">
-                        <label for="fecha-inicio">Desde:</label>
-                        <input type="date" name="fecha-inicio" id="fecha-inicio" class="form-control">
+                        <label for="fecha_inicio">Desde:</label>
+                        <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control">
                     </div>
                     <div class="col-12 col-md-5">
-                        <label for="fecha-fin">A:</label>
-                        <input type="date" name="fecha-fin" id="fecha-fin" class="form-control">
+                        <label for="fecha_fin">A:</label>
+                        <input type="date" name="fecha_fin" id="fecha_fin" class="form-control">
                     </div>
                     <div class="col-12 col-md-2">
                         <button class="btn btn-primary">Buscar cheques</button>
                     </div>
-                    <div class="col-12 mt-2">
+                    <div class="col-12">
                         <b><p class="text-danger "> {{ error }}</p></b>
+                    </div>
+                    <div class="col-12">
+                        <b><p class="text-success "> {{ correcto }}</p></b>
                     </div>
                 </form>
             </div>
@@ -61,7 +64,7 @@
                         </thead>
                         <tbody class="table-group-divider">
                             {% for cheque in cheques %}
-                                <tr class="{% if cheque.facturado == True or cheque.tarjeta != 0 %}table-warning{% endif %}">
+                                <tr class="{% if cheque.facturado == True or cheque.tarjeta != 0 or cheque.estado == True %}table-warning{% endif %}">
                                     <td>{{ cheque.folio }}</td>
                                     <td>{{ cheque.fecha }}</td>
                                     <td>{{ cheque.mesa }}</td>
@@ -89,7 +92,7 @@
                                               </div>
                                         </td>
 
-                                    {% elif cheque.bloqueado == False %}
+                                    {% elif cheque.estado == False %}
                                         <td class="">
                                             <div class="dropdown col-md-4">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

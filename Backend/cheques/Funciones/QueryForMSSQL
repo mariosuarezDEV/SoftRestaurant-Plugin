@@ -1,0 +1,11 @@
+ALTER TABLE cheqdet
+ADD id BIGINT IDENTITY(1,1);
+
+ALTER TABLE cheqdet
+ADD CONSTRAINT PK_cheqdet_id PRIMARY KEY (id);
+
+ALTER TABLE cheques
+ADD estado BIT DEFAULT 0;
+
+UPDATE cheques
+SET estado = 0;

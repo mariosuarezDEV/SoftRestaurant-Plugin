@@ -6,38 +6,56 @@ from .models import Cheques, Cheqdet
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
+from .Funciones.Optimizaciones import optimizaciones
+
+clean_orm = optimizaciones()
+
 # Create your views here.
 
 @login_required
 def chequesIndexView(request):
-    cheques = Cheques.objects.all()
-
     if request.method == 'GET':
-        return render(request, "ChequesIndex.html",{
-            'cheques': cheques
-        }) # Renderiza el template index.html
-    else:
-        fecha_inicio = request.POST.get('fecha-inicio')
-        fecha_fin = request.POST.get('fecha-fin')
-
-        if fecha_fin == "": # Obtener solo los cheques de la fecha de inicio
-            # formatear la fecha de inicio
-            fecha_inicio = datetime.datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
-            cheques = Cheques.objects.filter(fecha=fecha_inicio)
-
+        try:
+            cheques = clean_orm.get_cheques_loading()
             return render(request, "ChequesIndex.html", {
                 'cheques': cheques
-            })
-        elif fecha_inicio == "" or fecha_fin == "": # las fechas no pueden estar vacias
-            return render(request, "ChequesIndex.html", {"error": "Debes ingresar ambas fechas", 'cheques': cheques})
-        elif fecha_inicio > fecha_fin:
-            return render(request, "ChequesIndex.html", {"error": "La forma en la que quieres filtrar los cheques es incorrecta", 'cheques': cheques})
-        else:
-            cheques = Cheques.objects.filter(fecha__range=[fecha_inicio, fecha_fin])
-            return render(request, "ChequesIndex.html",{
-                'cheques': cheques
-            })
+            })  # Renderiza el template index.html
+        except Exception as e:
+            return render(request, "ChequesIndex.html", {"error": f'Error: {e} - No se pueden mostrar los cheques'})
+    else:
+        # Se realizo una petición POST
 
+        # Buscar por fechas
+        # Primero se puede buscar por fecha 'desde'
+        fecha_incio = request.POST.get('fecha_inicio')
+        fecha_fin = request.POST.get('fecha_fin')
+        # Validar que fecha inicio si tiene un dato y fecha fin no
+        if fecha_incio and not fecha_fin:
+            try:
+                fecha_incio = datetime.datetime.strptime(fecha_incio, '%Y-%m-%d')
+                cheques = clean_orm.get_cheques_detalles_fecha_inicio(fecha_incio)
+                return render(request, "ChequesIndex.html", {
+                    'cheques': cheques,
+                    'correcto': f'Devolviendo datos de la fecha: {fecha_incio}'
+                })  # Renderiza el template index.html
+            except Exception as e:
+                return render(request, "ChequesIndex.html", {"error": f'Error: {e} - No se pueden mostrar los cheques con la fecha solicitada'})
+        # Validar que la fecha fin sea mayor a la fecha inicio
+        elif fecha_fin < fecha_incio:
+            return render(request, "ChequesIndex.html", {"error": 'La solicitud de fecha es incorrecta'})
+        elif fecha_incio and fecha_fin:
+            try:
+                fecha_incio = datetime.datetime.strptime(fecha_incio, '%Y-%m-%d')
+                fecha_fin = datetime.datetime.strptime(fecha_fin, '%Y-%m-%d')
+                cheques = clean_orm.get_cheques_fechas(fecha_incio, fecha_fin)
+                return render(request, "ChequesIndex.html", {
+                    'cheques': cheques,
+                    'correcto': f'Devolviendo datos de la fecha: {fecha_incio} al {fecha_fin}'
+                })  # Renderiza el template index.html
+            except Exception as e:
+                return render(request, "ChequesIndex.html", {"error": f'Error: {e} - No se pueden mostrar los cheques con la fecha solicitada'})
+        else:
+            return render(request, "ChequesIndex.html", {"error": 'No se ha ingresado una fecha para buscar'})
 @login_required
 def chequesDetallesView(request):
     datos = Cheqdet.objects.all()
@@ -77,14 +95,14 @@ def pagoRequeridoView(request):
 @login_required
 def desbloquearCheque(request, folio):
     cheque = Cheques.objects.get(folio=folio)
-    cheque.bloqueado = False
+    cheque.estado = False
     cheque.save()
     return redirect('ChequesIndex') # Redirige a la vista de cheques
 
 @login_required
 def bloquearCheque(request, folio):
     cheque = Cheques.objects.get(folio=folio)
-    cheque.bloqueado = True
+    cheque.estado = True
     cheque.save()
     return redirect('ChequesIndex') # Redirige a la vista de cheques
 
@@ -93,7 +111,7 @@ def eliminarCheque(request, folio):
     cheque = Cheques.objects.get(folio=folio)
     cheque.delete()
     # Eliminar los detalles del cheque
-    detalles = Cheqdet.objects.filter(folio_det=folio)
+    detalles = Cheqdet.objects.filter(foliodet=folio)
     for detalle in detalles:
         detalle.delete()
     return redirect('ChequesIndex') # Redirige a la vista de cheques

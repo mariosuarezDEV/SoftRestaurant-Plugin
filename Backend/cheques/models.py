@@ -1084,7 +1084,6 @@ class Cfdirelacionados(models.Model):
 
 
 class Cheqdet(models.Model):
-    id = models.AutoField(primary_key=True)
     foliodet = models.BigIntegerField(blank=True)
     movimiento = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
     comanda = models.CharField(max_length=8, blank=True, null=True)
@@ -1143,6 +1142,9 @@ class Cheqdet(models.Model):
     class Meta:
         managed = False
         db_table = 'cheqdet'
+
+    def __str__(self):
+        return f'Detalle del Cheque {self.foliodet} - {self.idproducto}'
 
 
 class Cheqdetf(models.Model):
@@ -1414,11 +1416,14 @@ class Cheques(models.Model):
     totalconpropinacargo_ec = models.BinaryField(blank=True, null=True)
     mv_room = models.CharField(max_length=100)
     mv_lastname = models.CharField(max_length=100)
-    #bloqueado = models.BooleanField(default=False, db_column='Bloqueado', blank=True, null=True)  # Field name made lowercase.
+    estado = models.BooleanField(default=False, db_column='estado', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'cheques'
+
+    def __str__(self):
+        return f'Cheque {self.folio}'
 
 class Chequesf(models.Model):
     folio = models.BigAutoField(primary_key=True)
@@ -6037,6 +6042,9 @@ class Productos(models.Model):
     class Meta:
         managed = False
         db_table = 'productos'
+
+    def __str__(self):
+        return self.descripcion
 
 
 class Productostokencash(models.Model):
