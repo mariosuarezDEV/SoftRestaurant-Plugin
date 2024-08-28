@@ -20,5 +20,6 @@ urlpatterns = [
     path("desbloquear/<int:folio>/", views.desbloquearCheque, name='DesbloquearCheque'), # Agregar la url de la app cheques
     path("bloquear/<int:folio>/", views.bloquearCheque, name='BloquearCheque'), # Agregar la url de la app cheques
     path("eliminar/<int:folio>/", views.eliminarCheque, name='EliminarCheque'), # Agregar la url de la
+    path("configurar/", views.actualizar_tabla, name='ActualizarBD'), # Agregar la url de la app cheques
     path('api/', include(router.urls), name="ChequesAPI"), # Agregar las urls del router
 ]

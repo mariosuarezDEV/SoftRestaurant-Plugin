@@ -17,7 +17,11 @@ class optimizaciones:
             cheques = Cheques.objects.filter(fecha__range=(fecha_actual_inicio, fecha_actual_fin))
             return cheques
         except Exception as e:
-            return e
+            # si el error es 42S22 entonces retornar 42S22
+            if '42S22' in str(e):
+                return '42S22'
+            else:
+                return str(e)
 
     def get_cheques_detalles_fecha_inicio(self, fecha_inicio):
         # Establecer la hora de inicio y fin del día
