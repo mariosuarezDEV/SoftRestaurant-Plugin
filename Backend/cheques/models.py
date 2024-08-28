@@ -10,7 +10,6 @@ from django.db import models
 
 
 class Axclaves(models.Model):
-    id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     axid = models.CharField(db_column='AxId', max_length=50)  # Field name made lowercase.
     nsid = models.CharField(db_column='NsId', max_length=15)  # Field name made lowercase.
     tipo = models.IntegerField(db_column='Tipo')  # Field name made lowercase.
@@ -22,7 +21,6 @@ class Axclaves(models.Model):
 
 
 class Axconfig(models.Model):
-    id = models.IntegerField(db_column='Id', primary_key=True)  # Field name made lowercase.
     baseuri = models.CharField(db_column='BaseUri', max_length=250)  # Field name made lowercase.
     token = models.CharField(db_column='Token', max_length=200)  # Field name made lowercase.
     apiversion = models.CharField(db_column='ApiVersion', max_length=50)  # Field name made lowercase.
@@ -37,7 +35,6 @@ class Axconfig(models.Model):
 
 
 class Axlog(models.Model):
-    id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     fecha = models.DateTimeField(db_column='Fecha')  # Field name made lowercase.
     tipoevento = models.IntegerField(db_column='TipoEvento')  # Field name made lowercase.
     servicio = models.IntegerField(db_column='Servicio')  # Field name made lowercase.
@@ -62,7 +59,6 @@ class Axlog(models.Model):
 
 
 class Axpendientes(models.Model):
-    id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     nsid = models.CharField(db_column='NsId', max_length=15)  # Field name made lowercase.
     intento = models.IntegerField(db_column='Intento')  # Field name made lowercase.
     idlog = models.ForeignKey(Axlog, models.DO_NOTHING, db_column='IdLog')  # Field name made lowercase.
@@ -76,7 +72,6 @@ class Axpendientes(models.Model):
 
 
 class Cancellationreason(models.Model):
-    code = models.CharField(db_column='Code', max_length=4, blank=True, null=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=250, blank=True, null=True)  # Field name made lowercase.
     fkversioncontrolid = models.BigIntegerField(db_column='FKVersionControlId', blank=True, null=True)  # Field name made lowercase.
 
@@ -86,7 +81,6 @@ class Cancellationreason(models.Model):
 
 
 class Cashmovementstype(models.Model):
-    id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     code = models.CharField(db_column='Code', unique=True, max_length=5)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=30)  # Field name made lowercase.
     idaccount = models.CharField(db_column='IdAccount', max_length=5, blank=True, null=True)  # Field name made lowercase.
@@ -157,7 +151,6 @@ class Configuracionkiosco(models.Model):
 
 
 class Country(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=100)  # Field name made lowercase.
     zipcodepattern = models.CharField(db_column='ZipCodePattern', max_length=100)  # Field name made lowercase.
@@ -171,7 +164,6 @@ class Country(models.Model):
 
 
 class Currency(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=100)  # Field name made lowercase.
     decimals = models.IntegerField(db_column='Decimals')  # Field name made lowercase.
@@ -183,7 +175,6 @@ class Currency(models.Model):
 
 
 class Erpconfig(models.Model):
-    id = models.IntegerField(db_column='Id', primary_key=True)  # Field name made lowercase.
     baseuri = models.CharField(db_column='BaseUri', max_length=250)  # Field name made lowercase.
     compania = models.CharField(db_column='Compania', max_length=250)  # Field name made lowercase.
     tiposervicio = models.IntegerField(blank=True, null=True)
@@ -196,7 +187,6 @@ class Erpconfig(models.Model):
 
 
 class ErpSettings(models.Model):
-    id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     idcatalogo = models.ForeignKey(Erpconfig, models.DO_NOTHING, db_column='Idcatalogo')  # Field name made lowercase.
     descripcion = models.CharField(max_length=250)
     keyconfig = models.CharField(max_length=250)
@@ -255,7 +245,6 @@ class FecolResultadoejecucion(models.Model):
 
 
 class Factortype(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
 
     class Meta:
@@ -284,7 +273,6 @@ class Horariocorte(models.Model):
 
 
 class Historialactualizaciones(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     idanterior = models.CharField(db_column='IdAnterior', max_length=15, blank=True, null=True)  # Field name made lowercase.
     idactual = models.CharField(db_column='IdActual', max_length=15, blank=True, null=True)  # Field name made lowercase.
     idproducto = models.CharField(db_column='IdProducto', max_length=15, blank=True, null=True)  # Field name made lowercase.
@@ -387,7 +375,6 @@ class Month(models.Model):
 
 
 class Paymentmethod(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=100)  # Field name made lowercase.
     isunbanked = models.IntegerField(db_column='IsUnbanked')  # Field name made lowercase.
@@ -418,7 +405,6 @@ class Paymentmethodsrapp(models.Model):
 
 
 class Paymenttype(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=100)  # Field name made lowercase.
 
@@ -449,7 +435,6 @@ class Pricelists(models.Model):
 
 
 class Product(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=300)  # Field name made lowercase.
     startdate = models.DateTimeField(db_column='StartDate')  # Field name made lowercase.
@@ -498,7 +483,6 @@ class Productosequivalenciasconfig(models.Model):
 
 
 class Prooftype(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=100)  # Field name made lowercase.
     maxvalue = models.DecimalField(db_column='MaxValue', max_digits=16, decimal_places=6)  # Field name made lowercase.
@@ -510,7 +494,6 @@ class Prooftype(models.Model):
 
 
 class Proofuse(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=100)  # Field name made lowercase.
     isusedbylegalperson = models.BooleanField(db_column='IsUsedByLegalPerson')  # Field name made lowercase.
@@ -522,7 +505,6 @@ class Proofuse(models.Model):
 
 
 class Relationshiptype(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=100)  # Field name made lowercase.
 
@@ -565,7 +547,6 @@ class Serviceworkspacesettings(models.Model):
 
 
 class Synclog(models.Model):
-    id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     machinename = models.CharField(db_column='MachineName', max_length=50)  # Field name made lowercase.
     logged = models.CharField(db_column='Logged', max_length=100)  # Field name made lowercase.
     level = models.CharField(db_column='Level', max_length=50)  # Field name made lowercase.
@@ -592,7 +573,6 @@ class Syncronizationcontrol(models.Model):
 
 
 class Tax(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=100)  # Field name made lowercase.
     iswithholdingtax = models.BooleanField(db_column='IsWithholdingTax')  # Field name made lowercase.
@@ -606,7 +586,6 @@ class Tax(models.Model):
 
 
 class Taxrate(models.Model):
-    id = models.AutoField(primary_key=True)
     isfixed = models.BooleanField(db_column='IsFixed')  # Field name made lowercase.
     israte = models.BooleanField(db_column='IsRate')  # Field name made lowercase.
     istransferredtax = models.BooleanField(db_column='IsTransferredTax')  # Field name made lowercase.
@@ -622,7 +601,6 @@ class Taxrate(models.Model):
 
 
 class Taxregime(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=100)  # Field name made lowercase.
     isusedbylegalperson = models.BooleanField(db_column='IsUsedByLegalPerson')  # Field name made lowercase.
@@ -644,7 +622,6 @@ class Taxsubject(models.Model):
 
 
 class Unitofmeasure(models.Model):
-    id = models.AutoField(primary_key=True)
     code = models.CharField(db_column='Code', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=300)  # Field name made lowercase.
     description = models.CharField(db_column='Description', max_length=500)  # Field name made lowercase.
@@ -754,7 +731,6 @@ class AppList(models.Model):
 
 
 class AppSettings(models.Model):
-    id = models.BigAutoField(primary_key=True)
     app = models.ForeignKey(AppList, models.DO_NOTHING, to_field='app_id')
     field = models.CharField(max_length=100)
     field_value = models.TextField()
@@ -1016,7 +992,6 @@ class Bitacoratransacciones(models.Model):
 
 
 class Botonescomandero(models.Model):
-    id = models.IntegerField(primary_key=True)
     etiqueta = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
     descripcion = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
     tipo = models.IntegerField(blank=True, null=True)
@@ -1100,7 +1075,6 @@ class Carriers(models.Model):
 
 
 class Cfdirelacionados(models.Model):
-    id = models.BigAutoField(primary_key=True)
     idfactura = models.DecimalField(max_digits=10, decimal_places=0)
     uuid = models.CharField(max_length=50)
 
@@ -1110,6 +1084,7 @@ class Cfdirelacionados(models.Model):
 
 
 class Cheqdet(models.Model):
+    id = models.AutoField(primary_key=True)
     foliodet = models.BigIntegerField(blank=True)
     movimiento = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
     comanda = models.CharField(max_length=8, blank=True, null=True)
@@ -2375,7 +2350,6 @@ class Cuentas(models.Model):
 
 
 class CuentasProcesar(models.Model):
-    id = models.IntegerField(primary_key=True)
     idcuenta = models.CharField(max_length=50)
     idcomanda = models.IntegerField()
     productos = models.IntegerField()
