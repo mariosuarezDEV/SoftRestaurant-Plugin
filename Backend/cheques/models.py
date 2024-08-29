@@ -6043,7 +6043,7 @@ class Productos(models.Model):
         db_table = 'productos'
 
     def __str__(self):
-        return self.descripcion
+        return f'{self.idproducto} - {self.descripcion}'
 
 
 class Productostokencash(models.Model):
@@ -6192,6 +6192,9 @@ class Productosdetalle(models.Model):
     class Meta:
         managed = False
         db_table = 'productosdetalle'
+
+    def __str__(self):
+        return f'{self.idproducto} - {self.precio}'
 
 
 class Productosenproduccion(models.Model):

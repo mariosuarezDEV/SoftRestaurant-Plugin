@@ -86,8 +86,8 @@
                             </li>
                         {% endif %}
 
-                        {% if page_obj.paginator.num_pages > 5 %}
-                            {% if page_obj.number > 3 %}
+                        {% if page_obj.paginator.num_pages > 2 %}
+                            {% if page_obj.number > 1 %}
                                 <li class="page-item">
                                     <a class="page-link" href="?page=1">1</a>
                                 </li>
