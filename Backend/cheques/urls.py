@@ -25,7 +25,7 @@ urlpatterns = [
     path("eliminar/<int:folio>/", views.eliminarCheque, name='EliminarCheque'), # Eliminar un cheque
     path("peticiones/", views.accion_formulario, name='Accion_Cheques'), # Eliminar varios cheques
     path("eliminar_grupo/", views.eliminar_varios_cheques, name='EliminarGrupoCheques'), # Eliminar varios cheques
-    path("sustituir_primera_lista/", views.sustituir_produto_uno, name='SustituirPrimeraLista'), # Sustituir la primera lista de productos
+    path("sustituir_primera_lista/", views.sustituir_produto_uno_efectivo, name='SustituirPrimeraLista'), # Sustituir la primera lista de productos
     path("configurar/", views.actualizar_tabla, name='ActualizarBD'), # Configuración del diseño de la base de datos
     path('api/', include(router.urls), name="ChequesAPI"), # Acceso a la API
 ]
