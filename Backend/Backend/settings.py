@@ -76,12 +76,38 @@ WSGI_APPLICATION = "Backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
+DATABASES_SQLITE = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+
+DATABASES_mysql = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'testing',
+        'USER': 'lmadmin',
+        'PASSWORD': 'edqnLMCSf31.',
+        'HOST': '192.168.100.89',
+        'PORT': '3306',
+    }
+}
+
+DATABASES = {
+        'default': {
+            'ENGINE': 'mssql',
+            'NAME': 'softrestaurant11',
+            'USER': 'sa',
+            'PASSWORD': 'National09',
+            'HOST': 'DESKTOP-5RLQU6J\\NATIONALSOFT',
+            'PORT': '1433',
+            'OPTIONS': {
+                        'driver': 'ODBC Driver 17 for SQL Server',
+                    },
+        },
+    }
 
 
 # Password validation
@@ -119,6 +145,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+LOGIN_URL = "/cheques/login/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

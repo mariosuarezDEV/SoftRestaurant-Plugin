@@ -13,6 +13,13 @@ router.register("chequedet", ChequeDetalleViewSet) # Registrar el modelo detalle
 
 urlpatterns = [
     path("", views.chequesIndexView, name='ChequesIndex'), # Agregar la url de la app cheques
+    path("login/", views.loginView, name="LoginView"), # Vista para iniciar sesion
+    path("cheques/login/", views.logoutView, name="LogoutView"), # Vista para iniciar sesion
+    path("suscripcion/", views.pagoRequeridoView, name="PagoRequeridoView"), # Vista para recordarle al cliente que su suscripcion esta vencida
     path("detalles/", views.chequesDetallesView, name='ChequesDetalles'), # Agregar la url de la app cheques
-    path('api/', include(router.urls)), # Agregar las urls del router
+    path("desbloquear/<int:folio>/", views.desbloquearCheque, name='DesbloquearCheque'), # Agregar la url de la app cheques
+    path("bloquear/<int:folio>/", views.bloquearCheque, name='BloquearCheque'), # Agregar la url de la app cheques
+    path("eliminar/<int:folio>/", views.eliminarCheque, name='EliminarCheque'), # Agregar la url de la
+    path("configurar/", views.actualizar_tabla, name='ActualizarBD'), # Agregar la url de la app cheques
+    path('api/', include(router.urls), name="ChequesAPI"), # Agregar las urls del router
 ]
