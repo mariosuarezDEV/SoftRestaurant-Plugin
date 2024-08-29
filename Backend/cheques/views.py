@@ -228,8 +228,8 @@ def accion_formulario(request):
             except Exception as e:
                 return render(request, "ChequesIndex.html", {"error": f'Error: {e}'})
         elif accion == "sustituir_producto_lista_uno":
-            cheques_seleccionados = request.POST.getlist('grupo_sustituir')
-            return sustituir_produto_uno(cheques_seleccionados, request)
+            cheques_seleccionados = request.POST.getlist('sustituir_producto_lista_uno"')
+            return sustituir_produto_uno_efectivo(cheques_seleccionados, request)
         elif accion == "sustituir_producto_lista_dos":
             return HttpResponse("Sustituir producto dos")
         elif accion == "sustituir_producto_lista_tres":
@@ -297,8 +297,24 @@ def sustituir_produto_uno_efectivo(cheques_selecciondos, request):
             cheque.totalarticulos = 1
             cheque.subtotal = mi_producto.precio
             cheque.total = mi_producto.precio
-            cheque.totalconpropina = mi_producto.precio + cheque.propina
-
+            cheque.totalconpropina = mi_producto.precio + cheque.propina + cheque.propinatarjeta
+            cheque.totalimpuesto1 = mi_producto.impuesto1
+            cheque.totalconcargo = cheque.total
+            cheque.totalconpropinacargo = cheque.totalconpropina
+            cheque.totalalimentos = 0
+            cheque.totalbebidas = 0
+            cheque.totalsindescuento = 0
+            cheque.totaldescuentos = 0
+            cheque.totalcortesias = 0
+            cheque.totalcortesiaalimentos = 0
+            cheque.totalcortesiabebidas = 0
+            cheque.totalcortesiaotros = 0
+            cheque.totaldescuentoycortesia = 0
+            cheque.totalalimentossindescuentos = 0
+            cheque.totalbebidasindescuentos = 0
+            cheque.subtotalcondescuento = 0
+            cheque.totalimpuestod1 = mi_producto.impuesto1
             cheque.save()
+            return HttpResponse("Producto sustituido correctamente")
     else:
         return render(request, "ChequesIndex.html", {"error": "No se han enviado datos para sustituir"})
