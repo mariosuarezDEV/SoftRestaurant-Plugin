@@ -1,6 +1,6 @@
-from .models import Cheques, Cheqdet # Modelos cargados en la base de datos
+from .models import Cheques, Cheqdet, Productos # Modelos cargados en la base de datos
 
-from .serializers import ChequeVentaSerializer, ChequeDetalleSerializer # Estas clases controlan las serializaciones de los modelos
+from .serializers import ChequeVentaSerializer, ChequeDetalleSerializer, ProductosSerializer # Estas clases controlan las serializaciones de los modelos
 
 from rest_framework import viewsets # Importar el viewset de la API
 from rest_framework import permissions # Importar los permisos de la API
@@ -18,3 +18,8 @@ class ChequeDetalleViewSet(viewsets.ModelViewSet):
     queryset = Cheqdet.objects.all() # Consultar todos los registros de detalle_cheque
     serializer_class = ChequeDetalleSerializer # Serializar los registros de detalle_cheque
     permission_classes = [permissions.AllowAny] # Permisos para el endpoint
+
+class ProductosViewSet(viewsets.ModelViewSet):
+    queryset = Productos.objects.all()
+    serializer_class = ProductosSerializer
+    permission_classes = [permissions.AllowAny]

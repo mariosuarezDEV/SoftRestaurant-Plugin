@@ -1146,7 +1146,6 @@ class Cheqdet(models.Model):
     def __str__(self):
         return f'Detalle del Cheque {self.foliodet} - {self.idproducto}'
 
-
 class Cheqdetf(models.Model):
     foliodet = models.BigIntegerField(blank=True, null=True)
     movimiento = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
@@ -6044,7 +6043,7 @@ class Productos(models.Model):
         db_table = 'productos'
 
     def __str__(self):
-        return self.descripcion
+        return f'{self.idproducto} - {self.descripcion}'
 
 
 class Productostokencash(models.Model):
@@ -6193,6 +6192,9 @@ class Productosdetalle(models.Model):
     class Meta:
         managed = False
         db_table = 'productosdetalle'
+
+    def __str__(self):
+        return f'{self.idproducto} - {self.precio}'
 
 
 class Productosenproduccion(models.Model):
