@@ -84,17 +84,6 @@ DATABASES_SQLITE = {
 }
 
 
-DATABASES_mysql = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'testing',
-        'USER': 'lmadmin',
-        'PASSWORD': 'edqnLMCSf31.',
-        'HOST': '192.168.100.89',
-        'PORT': '3306',
-    }
-}
-
 DATABASES = {
         'default': {
             'ENGINE': 'mssql',
@@ -108,7 +97,6 @@ DATABASES = {
                     },
         },
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
