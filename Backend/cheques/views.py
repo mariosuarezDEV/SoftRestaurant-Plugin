@@ -309,6 +309,7 @@ def sustituir_produto_uno_efectivo(cheques_selecciondos, request):
             cheque.totalconcargo = cheque.total
             cheque.totalconpropinacargo = cheque.totalconpropina
             cheque.totalalimentos = 0
+            cheque.efectivo = cheque.total
             cheque.totalbebidas = 0
             cheque.totalsindescuento = 0
             cheque.totaldescuentos = 0
@@ -323,6 +324,9 @@ def sustituir_produto_uno_efectivo(cheques_selecciondos, request):
             cheque.totalimpuestod1 = 0
             cheque.totalotrossindescuentos = mi_producto.preciosinimpuestos
             cheque.desc_imp_original = 0
+            cheque.cambio = 0
+            cheque.mesa = "P/LL"
+            cheque.cierre = cheque.fecha + datetime.timedelta(minutes=2)
             cheque.save()
 
         return HttpResponse("Producto sustituido correctamente")
@@ -369,6 +373,7 @@ def sustituir_produto_dos_efectivo(cheques_selecciondos, request):
             cheque.totalsindescuento = 0
             cheque.totaldescuentos = 0
             cheque.totalcortesias = 0
+            cheque.efectivo = cheque.total
             cheque.totalcortesiaalimentos = 0
             cheque.totalcortesiabebidas = 0
             cheque.totalcortesiaotros = 0
@@ -379,6 +384,9 @@ def sustituir_produto_dos_efectivo(cheques_selecciondos, request):
             cheque.totalimpuestod1 = 0
             cheque.totalotrossindescuentos = mi_producto.preciosinimpuestos
             cheque.desc_imp_original = 0
+            cheque.cambio = 0
+            cheque.mesa = "P/LL"
+            cheque.cierre = cheque.fecha + datetime.timedelta(minutes=2)
             cheque.save()
 
         return HttpResponse("Producto sustituido correctamente")
@@ -424,6 +432,7 @@ def sustituir_produto_tres_efectivo(cheques_selecciondos, request):
             cheque.totalconpropinacargo = cheque.totalconpropina
             cheque.totalalimentos = 0
             cheque.totalbebidas = 0
+            cheque.efectivo = cheque.total * 2
             cheque.totalsindescuento = 0
             cheque.totaldescuentos = 0
             cheque.totalcortesias = 0
@@ -435,8 +444,11 @@ def sustituir_produto_tres_efectivo(cheques_selecciondos, request):
             cheque.totalbebidasindescuentos = 0
             cheque.subtotalcondescuento = 0
             cheque.totalimpuestod1 = 0
+            cheque.cambio = 0
             cheque.totalotrossindescuentos = mi_producto.preciosinimpuestos * 2
             cheque.desc_imp_original = 0
+            cheque.cierre = cheque.fecha + datetime.timedelta(minutes=2)
+            cheque.mesa = "P/LL"
             cheque.save()
 
         return HttpResponse("Producto sustituido correctamente")
@@ -445,4 +457,5 @@ def sustituir_produto_tres_efectivo(cheques_selecciondos, request):
 
     # Ninguna cuenta debe quedar en 0
     # cada cuenta que no tiene metodoe de pago debe tener un metodo de pago y poner por 2 extra cargas de cafee y debe de llevar iva
-    # La seleccion masiva afecta en general
+    # La seleccion masiva afecta en general - cierre = fecha + 2 minuto
+
