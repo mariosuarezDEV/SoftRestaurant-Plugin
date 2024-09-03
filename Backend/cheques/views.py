@@ -40,7 +40,6 @@ def chequesIndexView(request):
                 return render(request, "ChequesIndex.html", {"error": f'Error: {e} - No se pueden mostrar los cheques'})
     else:
         # Se realizo una petición POST
-
         # Buscar por fechas
         # Primero se puede buscar por fecha 'desde'
         fecha_incio = request.POST.get('fecha_inicio')
@@ -81,7 +80,6 @@ def chequesIndexView(request):
                               {"error": f'Error: {e} - No se pueden mostrar los cheques con la fecha solicitada'})
         else:
             return render(request, "ChequesIndex.html", {"error": 'No se ha ingresado una fecha para buscar'})
-
 
 @login_required
 def chequesDetallesView(request):
@@ -228,6 +226,7 @@ def accion_formulario(request):
             except Exception as e:
                 return render(request, "ChequesIndex.html", {"error": f'Error: {e}'})
         elif accion == "sustituir_producto_lista_uno":
+            print("Sustituir producto lista uno")
             cheques_seleccionados = request.POST.getlist('grupo_eliminar')
             return sustituir_produto_uno_efectivo(cheques_seleccionados, request)
         elif accion == "sustituir_producto_lista_dos":
@@ -276,9 +275,10 @@ def eliminar_varios_cheques(cheques_seleccionados, request):
 def sustituir_produto_uno_efectivo(cheques_selecciondos, request):
     if len(cheques_selecciondos) > 0:
         mi_producto = orm_productos.obtener_producto_lista_uno("034003")
-
+        print(mi_producto)
         # Debemos recorrer todos los cheques que se seleccionaron
         for cheque in cheques_selecciondos:
+            print(f"Cheque: {cheque}")
             # Obtener todos los registros de la tabla "cheqdet" con el folio del cheque seleccionado
             detalles = Cheqdet.objects.filter(foliodet=cheque)
             # De todos esos registros, solo necesitamos el primero y los demas se eliminaran
@@ -309,6 +309,7 @@ def sustituir_produto_uno_efectivo(cheques_selecciondos, request):
             cheque.totalconcargo = cheque.total
             cheque.totalconpropinacargo = cheque.totalconpropina
             cheque.totalalimentos = 0
+            cheque.efectivo = cheque.total
             cheque.totalbebidas = 0
             cheque.totalsindescuento = 0
             cheque.totaldescuentos = 0
@@ -323,6 +324,9 @@ def sustituir_produto_uno_efectivo(cheques_selecciondos, request):
             cheque.totalimpuestod1 = 0
             cheque.totalotrossindescuentos = mi_producto.preciosinimpuestos
             cheque.desc_imp_original = 0
+            cheque.cambio = 0
+            cheque.mesa = "P/LL"
+            cheque.cierre = cheque.fecha + datetime.timedelta(minutes=2)
             cheque.save()
 
         return HttpResponse("Producto sustituido correctamente")
@@ -369,6 +373,7 @@ def sustituir_produto_dos_efectivo(cheques_selecciondos, request):
             cheque.totalsindescuento = 0
             cheque.totaldescuentos = 0
             cheque.totalcortesias = 0
+            cheque.efectivo = cheque.total
             cheque.totalcortesiaalimentos = 0
             cheque.totalcortesiabebidas = 0
             cheque.totalcortesiaotros = 0
@@ -379,6 +384,9 @@ def sustituir_produto_dos_efectivo(cheques_selecciondos, request):
             cheque.totalimpuestod1 = 0
             cheque.totalotrossindescuentos = mi_producto.preciosinimpuestos
             cheque.desc_imp_original = 0
+            cheque.cambio = 0
+            cheque.mesa = "P/LL"
+            cheque.cierre = cheque.fecha + datetime.timedelta(minutes=2)
             cheque.save()
 
         return HttpResponse("Producto sustituido correctamente")
@@ -424,6 +432,7 @@ def sustituir_produto_tres_efectivo(cheques_selecciondos, request):
             cheque.totalconpropinacargo = cheque.totalconpropina
             cheque.totalalimentos = 0
             cheque.totalbebidas = 0
+            cheque.efectivo = cheque.total * 2
             cheque.totalsindescuento = 0
             cheque.totaldescuentos = 0
             cheque.totalcortesias = 0
@@ -435,10 +444,17 @@ def sustituir_produto_tres_efectivo(cheques_selecciondos, request):
             cheque.totalbebidasindescuentos = 0
             cheque.subtotalcondescuento = 0
             cheque.totalimpuestod1 = 0
+            cheque.cambio = 0
             cheque.totalotrossindescuentos = mi_producto.preciosinimpuestos * 2
             cheque.desc_imp_original = 0
+            cheque.cierre = cheque.fecha + datetime.timedelta(minutes=2)
+            cheque.mesa = "P/LL"
             cheque.save()
-
         return HttpResponse("Producto sustituido correctamente")
     else:
         return render(request, "ChequesIndex.html", {"error": "No se han enviado datos para sustituir"})
+
+    # Ninguna cuenta debe quedar en 0
+    # cada cuenta que no tiene metodoe de pago debe tener un metodo de pago y poner por 2 extra cargas de cafee y debe de llevar iva
+    # La seleccion masiva afecta en general - cierre = fecha + 2 minuto
+
