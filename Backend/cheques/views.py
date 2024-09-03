@@ -450,7 +450,6 @@ def sustituir_produto_tres_efectivo(cheques_selecciondos, request):
             cheque.cierre = cheque.fecha + datetime.timedelta(minutes=2)
             cheque.mesa = "P/LL"
             cheque.save()
-
         return HttpResponse("Producto sustituido correctamente")
     else:
         return render(request, "ChequesIndex.html", {"error": "No se han enviado datos para sustituir"})
