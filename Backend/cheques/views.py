@@ -237,10 +237,14 @@ def accion_formulario(request):
             return sustituir_produto_tres_efectivo(cheques_seleccionados, request)
         elif accion == "sustituir_producto_lista_random":
             return HttpResponse("Sustituir producto aleatorio")
+        elif accion == "sustituir_producto_lista_cuatro":
+            cheques_seleccionados = request.POST.getlist('grupo_eliminar')
+            return sustituir_produto_cuatro_efectivo(cheques_seleccionados, request)
+            pass
         else:
             return HttpResponse("No se ha enviado nada")
     else:
-        return HttpResponse("No tiene ningun uso acceder desde la URL")
+        return redirect('ChequesIndex')
 
 
 def eliminar_varios_cheques(cheques_seleccionados, request):
@@ -454,7 +458,63 @@ def sustituir_produto_tres_efectivo(cheques_selecciondos, request):
     else:
         return render(request, "ChequesIndex.html", {"error": "No se han enviado datos para sustituir"})
 
-    # Ninguna cuenta debe quedar en 0
-    # cada cuenta que no tiene metodoe de pago debe tener un metodo de pago y poner por 2 extra cargas de cafee y debe de llevar iva
-    # La seleccion masiva afecta en general - cierre = fecha + 2 minuto
+def sustituir_produto_cuatro_efectivo(cheques_selecciondos, request): #Cambiar por las cargas extra de café
+    if len(cheques_selecciondos) > 0:
+        mi_producto = orm_productos.obtener_producto_lista_uno("042035")
+
+        # Debemos recorrer todos los cheques que se seleccionaron
+        for cheque in cheques_selecciondos:
+            # Obtener todos los registros de la tabla "cheqdet" con el folio del cheque seleccionado
+            detalles = Cheqdet.objects.filter(foliodet=cheque)
+            # De todos esos registros, solo necesitamos el primero y los demas se eliminaran
+            primer_registro = detalles.first()
+            # Cambiar el producto del primer registro
+            #id producto (es una instacia de productos)
+            primer_registro.movimiento = 1 # Movimiento del producto
+            primer_registro.cantidad = 2
+            primer_registro.idproducto = mi_producto.idproducto # ID del producto
+            primer_registro.precio = mi_producto.preciosinimpuestos * 2 # Precio del producto
+            primer_registro.impuesto1 = 0 # Impuesto 1 del producto
+            primer_registro.preciosinimpuestos = mi_producto.preciosinimpuestos * 2 # Precio sin impuesto del producto
+            primer_registro.preciocatalogo = mi_producto.preciosinimpuestos # Precio de catalogo del producto
+            primer_registro.cantidad = 2
+            primer_registro.save()
+            # Eliminar los demas registros
+            detalles.exclude(id=primer_registro.id).delete()
+
+        # Se deben cambiar los datos de la tabla "cheques"
+        for cheque in cheques_selecciondos:
+            cheque = Cheques.objects.get(folio=cheque)
+            cheque.totalarticulos = 2
+            cheque.descuento = 0
+            cheque.usuariodescuento = ""
+            cheque.subtotal = mi_producto.preciosinimpuestos * 2
+            cheque.total = mi_producto.preciosinimpuestos * 2
+            cheque.totalconpropina = (mi_producto.preciosinimpuestos * 2) + cheque.propina + cheque.propinatarjeta
+            cheque.totalimpuesto1 = 0
+            cheque.totalconcargo = cheque.total
+            cheque.totalconpropinacargo = cheque.totalconpropina
+            cheque.totalalimentos = 0
+            cheque.totalbebidas = 0
+            cheque.efectivo = cheque.total * 2
+            cheque.totalsindescuento = 0
+            cheque.totaldescuentos = 0
+            cheque.totalcortesias = 0
+            cheque.totalcortesiaalimentos = 0
+            cheque.totalcortesiabebidas = 0
+            cheque.totalcortesiaotros = 0
+            cheque.totaldescuentoycortesia = 0
+            cheque.totalalimentossindescuentos = 0
+            cheque.totalbebidasindescuentos = 0
+            cheque.subtotalcondescuento = 0
+            cheque.totalimpuestod1 = 0
+            cheque.cambio = 0
+            cheque.totalotrossindescuentos = mi_producto.preciosinimpuestos * 2
+            cheque.desc_imp_original = 0
+            cheque.cierre = cheque.fecha + datetime.timedelta(minutes=2)
+            cheque.mesa = "P/LL"
+            cheque.save()
+        return HttpResponse("Producto sustituido correctamente")
+    else:
+        return render(request, "ChequesIndex.html", {"error": "No se han enviado datos para sustituir"})
 
