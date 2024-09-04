@@ -518,3 +518,4 @@ def sustituir_produto_cuatro_efectivo(cheques_selecciondos, request): #Cambiar p
     else:
         return render(request, "ChequesIndex.html", {"error": "No se han enviado datos para sustituir"})
 
+

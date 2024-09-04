@@ -1268,7 +1268,7 @@ class Cheques(models.Model):
     idtipodescuento = models.CharField(max_length=5, blank=True, null=True)
     numerotarjeta = models.CharField(max_length=30, blank=True, null=True)
     folionotadeconsumo = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
-    notadeconsumo = models.BooleanField(blank=True, null=True)
+    notadeconsumo = models.BooleanField(blank=True, null=True) # Revisado
     propinapagada = models.BooleanField(blank=True, null=True)
     propinafoliomovtocaja = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
     puntosmonederogenerados = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
@@ -1421,8 +1421,9 @@ class Cheques(models.Model):
         managed = False
         db_table = 'cheques'
 
+
     def __str__(self):
-        return f'Cheque {self.folio}'
+        return f'Cheque {self.numcheque} con folio {self.folio}'
 
 class Chequesf(models.Model):
     folio = models.BigAutoField(primary_key=True)
@@ -6192,6 +6193,8 @@ class Productosdetalle(models.Model):
     class Meta:
         managed = False
         db_table = 'productosdetalle'
+        verbose_name_plural = 'Productos Detalle'
+        verbose_name = 'Producto Detalle'
 
     def __str__(self):
         return f'{self.idproducto} - {self.precio}'
