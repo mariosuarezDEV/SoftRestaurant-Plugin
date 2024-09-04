@@ -1128,6 +1128,8 @@ class Cheqdet(models.Model):
     totalsrx = models.DecimalField(max_digits=7, decimal_places=5)
     idmovtobillar = models.BigIntegerField()
     idlistaprecio = models.IntegerField(blank=True, null=True)
+
+    # Duda
     tipocambio = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     impuestoimporte3 = models.DecimalField(max_digits=19, decimal_places=4)
     estrateca_discountcode = models.CharField(db_column='estrateca_DiscountCode', max_length=50)  # Field name made lowercase.
@@ -1142,9 +1144,8 @@ class Cheqdet(models.Model):
     class Meta:
         managed = False
         db_table = 'cheqdet'
-
-    def __str__(self):
-        return f'Detalle del Cheque {self.foliodet} - {self.idproducto}'
+        verbose_name = 'Detalle del Cheque'
+        verbose_name_plural = 'Detalles del Cheque'
 
 class Cheqdetf(models.Model):
     foliodet = models.BigIntegerField(blank=True, null=True)
@@ -1247,9 +1248,12 @@ class Cheques(models.Model):
     pagado = models.BooleanField(blank=True, null=True)
     cancelado = models.BooleanField(blank=True, null=True)
     impreso = models.BooleanField(blank=True, null=True)
+    # Duda
     impresiones = models.DecimalField(max_digits=6, decimal_places=0, blank=True, null=True)
+
     cambio = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     descuento = models.DecimalField(max_digits=8, decimal_places=4, blank=True, null=True)
+    #Duda
     reabiertas = models.DecimalField(max_digits=4, decimal_places=0, blank=True, null=True)
     razoncancelado = models.CharField(max_length=255, blank=True, null=True)
     orden = models.DecimalField(max_digits=6, decimal_places=0, blank=True, null=True)
@@ -1268,15 +1272,19 @@ class Cheques(models.Model):
     idtipodescuento = models.CharField(max_length=5, blank=True, null=True)
     numerotarjeta = models.CharField(max_length=30, blank=True, null=True)
     folionotadeconsumo = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
-    notadeconsumo = models.BooleanField(blank=True, null=True) # Revisado
+    notadeconsumo = models.BooleanField(blank=True, null=True)
+    #Duda
     propinapagada = models.BooleanField(blank=True, null=True)
     propinafoliomovtocaja = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
+
     puntosmonederogenerados = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     propinaincluida = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     tarjetadescuento = models.CharField(max_length=30, blank=True, null=True)
     porcentajefac = models.DecimalField(max_digits=11, decimal_places=6, blank=True, null=True)
     usuariopago = models.CharField(max_length=15, blank=True, null=True)
+    #Duda
     propinamanual = models.BooleanField(blank=True, null=True)
+
     observaciones = models.CharField(max_length=250, blank=True, null=True)
     idclientedomicilio = models.CharField(max_length=15, blank=True, null=True)
     iddireccion = models.CharField(max_length=15, blank=True, null=True)
@@ -1286,16 +1294,23 @@ class Cheques(models.Model):
     subtotal = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     subtotalsinimpuestos = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     total = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
+
     totalconpropina = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
+
     totalimpuesto1 = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     cargo = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
+
+    # Duda
     totalconcargo = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     totalconpropinacargo = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     descuentoimporte = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
+
     efectivo = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     tarjeta = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     vales = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     otros = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
+
+    #Duda
     propina = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     propinatarjeta = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     campoadicional1 = models.CharField(max_length=250, blank=True, null=True)
@@ -1316,6 +1331,8 @@ class Cheques(models.Model):
     totaldescuentoalimentos = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     totaldescuentobebidas = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     totaldescuentootros = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
+
+    #Duda
     totalcortesias = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     totalcortesiaalimentos = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     totalcortesiabebidas = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
@@ -1325,6 +1342,7 @@ class Cheques(models.Model):
     totalbebidassindescuentos = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     totalotrossindescuentos = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     descuentocriterio = models.DecimalField(max_digits=1, decimal_places=0, blank=True, null=True)
+
     descuentomonedero = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     idmenucomedor = models.CharField(max_length=15, blank=True, null=True)
     subtotalcondescuento = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
@@ -1388,7 +1406,10 @@ class Cheques(models.Model):
     desc_imp_original = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     donativo = models.DecimalField(max_digits=19, decimal_places=4)
     totalcondonativo = models.DecimalField(max_digits=19, decimal_places=4)
+
+    # Duda
     totalconpropinacargodonativo = models.DecimalField(max_digits=19, decimal_places=4)
+
     orderreference = models.CharField(max_length=500)
     appname = models.CharField(max_length=250)
     paymentproviderid = models.CharField(max_length=50)
@@ -1420,10 +1441,8 @@ class Cheques(models.Model):
     class Meta:
         managed = False
         db_table = 'cheques'
-
-
-    def __str__(self):
-        return f'Cheque {self.numcheque} con folio {self.folio}'
+        verbose_name = 'Ver cheque'
+        verbose_name_plural = 'Ver cheques'
 
 class Chequesf(models.Model):
     folio = models.BigAutoField(primary_key=True)

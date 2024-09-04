@@ -93,7 +93,7 @@ DATABASES = {
             'HOST': 'DESKTOP-5RLQU6J\\NATIONALSOFT',
             'PORT': '1433',
             'OPTIONS': {
-                        'driver': 'ODBC Driver 18 for SQL Server',
+                        'driver': 'ODBC Driver 17 for SQL Server',
                         'extra_params': 'TrustServerCertificate=yes;',
                     },
         },
@@ -117,7 +117,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000  # Ajusta este número según tus necesidades
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB, ajusta según sea necesario
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
