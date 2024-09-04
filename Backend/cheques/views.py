@@ -213,7 +213,6 @@ def actualizar_tabla(request):
     return HttpResponse(
         "Tablas actualizadas correctamente, puedes regresar al incio")  # Redirigir a la vista de cheques con un mensaje de confirmación
 
-
 @login_required
 def accion_formulario(request):
     if request.method == 'POST':
