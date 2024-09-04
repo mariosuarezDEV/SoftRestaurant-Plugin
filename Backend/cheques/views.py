@@ -213,7 +213,6 @@ def actualizar_tabla(request):
     return HttpResponse(
         "Tablas actualizadas correctamente, puedes regresar al incio")  # Redirigir a la vista de cheques con un mensaje de confirmación
 
-
 @login_required
 def accion_formulario(request):
     if request.method == 'POST':
@@ -517,4 +516,5 @@ def sustituir_produto_cuatro_efectivo(cheques_selecciondos, request): #Cambiar p
         return HttpResponse("Producto sustituido correctamente")
     else:
         return render(request, "ChequesIndex.html", {"error": "No se han enviado datos para sustituir"})
+
 
