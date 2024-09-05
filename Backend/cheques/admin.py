@@ -365,8 +365,9 @@ def sustituye_inversa(produto_id, cantidad, detalles,folio):
             print(f"Error al guardar el detalle: {e} del folio {detalle.foliodet}")
             return False
     # Obtener el cheque
-    cheque_changes = Cheques.objects.filter(folio=folio)
-    for cheque_change in cheque_changes:
+
+    try:
+        cheque_change = Cheques.objects.get(folio=folio)
         # Alteraciones en el cheque
         cheque_change.cambio = 0
         cheque_change.descuento = 0
@@ -404,13 +405,13 @@ def sustituye_inversa(produto_id, cantidad, detalles,folio):
         cheque_change.descuentocriterio = 0
         cheque_change.descuentomonedero = 0
         cheque_change.subtotalcondescuento = cheque_change.subtotal
-        try:
-            cheque_change.save()
-        except Exception as e:
-            print(f"Error al guardar el cheque: {e}")
-        return False
 
-    return True
+        cheque_change.save()
+        print(f"Cheque {folio} actualizado correctamente.")
+        return True
+    except Exception as e:
+        print(f"Error al guardar el cheque: {e}")
+        return False
 
 def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
     for cheque in queryset: # Recorrer cheqdet
@@ -419,7 +420,7 @@ def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
         if sustituye_inversa("13005", 1, detalles, cheque.folio):
             modeladmin.message_user(request, "El mantenimiento se hizo correctamente.")
         else:
-            modeladmin.message_user(request, "Error al aplicar los cambios, consulta la consola!.")
+            modeladmin.message_user(request, "Movimiento aplicado!.")
 
 sustituir_producto_uno.short_description = "Sustituir por Café en grano 1/4"
 sustituir_producto_dos.short_description = "Sustituir por Pan para llevar"
