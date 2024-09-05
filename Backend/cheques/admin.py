@@ -172,10 +172,10 @@ def sustituir_producto_tres(modeladmin, request, queryset):
         objeto.idtipodescuento= ""
         objeto.tarjetadescuento = 0
         objeto.totalarticulos = 2
-        objeto.subtotal = productos.precio * objeto.totalarticulos
+        objeto.subtotal = productos.preciosinimpuestos * objeto.totalarticulos
         objeto.total = productos.precio * objeto.totalarticulos
         objeto.totalconpropina = objeto.total + objeto.propina
-        objeto.totalimpuesto1 = productos.impuesto1
+        objeto.totalimpuesto1 = (productos.precio * 0.16) * objeto.totalarticulos
         objeto.totalconcargo = objeto.total + objeto.cargo
         objeto.totalconpropinacargo = objeto.total + objeto.propina + objeto.cargo
         objeto.descuentoimporte = 0
