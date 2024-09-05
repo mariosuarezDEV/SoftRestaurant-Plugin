@@ -4,6 +4,8 @@ from django.contrib import admin
 from django.db import models
 import datetime
 
+from decimal import Decimal
+
 from rest_framework.authtoken.views import obtain_auth_token
 
 # Modelos de la app de cheques
@@ -175,7 +177,7 @@ def sustituir_producto_tres(modeladmin, request, queryset):
         objeto.subtotal = productos.preciosinimpuestos * objeto.totalarticulos
         objeto.total = productos.precio * objeto.totalarticulos
         objeto.totalconpropina = objeto.total + objeto.propina
-        objeto.totalimpuesto1 = (productos.precio * 0.16) * objeto.totalarticulos
+        objeto.totalimpuesto1 = (productos.precio * Decimal(0.16)) * objeto.totalarticulos
         objeto.totalconcargo = objeto.total + objeto.cargo
         objeto.totalconpropinacargo = objeto.total + objeto.propina + objeto.cargo
         objeto.descuentoimporte = 0
@@ -211,7 +213,7 @@ def sustituir_producto_tres(modeladmin, request, queryset):
 
             # Modifica el primer registro
             cheqdet = Cheqdet.objects.get(id=cheqdet_ids[0])
-            cheqdet.cantidad = 1
+            cheqdet.cantidad = 2
             try:
                 producto = Productos.objects.get(idproducto="V007021")
             except Productos.DoesNotExist:
@@ -221,7 +223,7 @@ def sustituir_producto_tres(modeladmin, request, queryset):
             cheqdet.idproducto = producto
             cheqdet.descuento = 0
             cheqdet.precio = productos.precio * 2
-            cheqdet.impuesto1 = productos.impuesto1 * 2
+            cheqdet.impuesto1 = (productos.precio * Decimal(0.16)) * 2
             cheqdet.preciosinimpuestos = productos.preciosinimpuestos * 2
             cheqdet.modificador = False
             cheqdet.comentario = ""

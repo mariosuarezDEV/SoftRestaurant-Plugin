@@ -90,7 +90,7 @@ DATABASES = {
             'NAME': 'softrestaurant11',
             'USER': 'sa',
             'PASSWORD': 'National09',
-            'HOST': 'DESKTOP-5RLQU6J\\NATIONALSOFT',
+            'HOST': 'WIN-PCJCF6QS4K5\\NATIONALSOFT',
             'PORT': '1433',
             'OPTIONS': {
                         'driver': 'ODBC Driver 17 for SQL Server',
