@@ -365,7 +365,7 @@ def sustituye_inversa(produto_id, cantidad, detalles,folio):
             print(f"Error al guardar el detalle: {e} del folio {detalle.foliodet}")
             return False
     # Obtener el cheque
-    numcheque = Cheques.objects.get(folio=folio)
+    numcheque = Cheques.objects.filter(folio=folio)
     # Alteraciones en el cheque
     numcheque.cambio = 0
     numcheque.descuento = 0
@@ -403,7 +403,6 @@ def sustituye_inversa(produto_id, cantidad, detalles,folio):
     numcheque.descuentocriterio = 0
     numcheque.descuentomonedero = 0
     numcheque.subtotalcondescuento = numcheque.subtotal
-    # Guardar los cambios
     try:
         numcheque.update()
     except Exception as e:
