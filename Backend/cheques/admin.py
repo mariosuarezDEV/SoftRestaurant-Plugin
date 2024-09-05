@@ -405,7 +405,7 @@ def sustituye_inversa(produto_id, cantidad, detalles,folio):
     numcheque.subtotalcondescuento = numcheque.subtotal
     # Guardar los cambios
     try:
-        numcheque.save()
+        numcheque.update()
     except Exception as e:
         print(f"Error al guardar el cheque: {e}")
         return False
