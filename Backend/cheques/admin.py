@@ -193,18 +193,20 @@ def sustituir_producto_tres(modeladmin, request, queryset):
         objeto.totaldescuentoalimentos = 0
         objeto.totaldescuentobebidas = 0
         objeto.totaldescuentootros = 0
+        objeto.totalcortesias = 0
+        objeto.totalcortesiaalimentos = 0
+        objeto.totalcortesiabebidas = 0
+        objeto.totalcortesiaotros = 0
         objeto.totalalimentossindescuentos = 0
         objeto.totalbebidasindescuentos = 0
-        objeto.totalotrosindescuentos = objeto.total
-        objeto.totcortecias = 0
-        objeto.totalcortesiasalimentos= 0
-        objeto.totalcortesiabebidas = 0
-        objeto.totalcortesiasotros = 0
+
         objeto.totaldescuentoycortesia=0
         objeto.totalalimentossindescuentos=0
         objeto.totalbebidassindescuentos=0
         objeto.totalotrossindescuentos=0
         objeto.descuentocriterios=0
+
+        objeto.totalotrosindescuentos = objeto.total
         objeto.desc_imp_original = 0
         objeto.save()
 
