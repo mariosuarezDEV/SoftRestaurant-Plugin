@@ -344,7 +344,7 @@ def sustituye_inversa(produto_id, cantidad, detalles):
         return False
     for detalle in detalles:
         detalle.cantida = cantidad
-        detalle.idproducto = producto.idproducto
+        detalle.idproducto = Productos.objects.get(idproducto=produto_id)
         detalle.descuento = 0
         detalle.precio = p_d.precio
         detalle.impuesto1 = p_d.precio * Decimal(0.16)
