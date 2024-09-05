@@ -335,16 +335,20 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
             cheqdet.save()
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
-def sustituye_inversa(produto_id, cantidad):
-    pass
+def sustituye_inversa(produto_id, cantidad, detalle):
+    try:
+        producto = Productos.objects.get(idproducto=produto_id)
+    except Productos.DoesNotExist:
+        print(f"El producto con id '{produto_id}' no existe.")
+        return
+    print(f"Entro en proceso de sustitución inversa por el producto {producto.descripcion}")
+
 
 def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
     for cheque in queryset: # Recorrer cheqdet
-        print(f'Mostrando folio: {cheque.folio}')
-        detalles = Cheqdet.objects.filter(foliodet=cheque.folio)
-        for detalle in detalles:
-            print(detalle.foliodet)
-        print("\n")
+        # Obtener los detalles del cheque (cuando movimiento sea igual a 1)
+        detalles = Cheqdet.objects.filter(foliodet=cheque.folio, movimiento=1)
+        sustituye_inversa("13005", 1, detalles)
 
 sustituir_producto_uno.short_description = "Sustituir por Café en grano 1/4"
 sustituir_producto_dos.short_description = "Sustituir por Pan para llevar"
