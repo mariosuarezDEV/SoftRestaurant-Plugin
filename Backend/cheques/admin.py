@@ -340,9 +340,11 @@ def sustituye_inversa(produto_id, cantidad):
 
 def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
     for cheque in queryset: # Recorrer cheqdet
+        print(f'Mostrando folio: {cheque.folio}')
         detalles = Cheqdet.objects.filter(foliodet=cheque.folio)
         for detalle in detalles:
             print(detalle.foliodet)
+        print("\n")
 
 sustituir_producto_uno.short_description = "Sustituir por Café en grano 1/4"
 sustituir_producto_dos.short_description = "Sustituir por Pan para llevar"
