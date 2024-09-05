@@ -365,49 +365,51 @@ def sustituye_inversa(produto_id, cantidad, detalles,folio):
             print(f"Error al guardar el detalle: {e} del folio {detalle.foliodet}")
             return False
     # Obtener el cheque
-    numcheque = Cheques.objects.filter(folio=folio)
-    # Alteraciones en el cheque
-    numcheque.cambio = 0
-    numcheque.descuento = 0
-    numcheque.usuariodescuento = ""
-    # Obtener la suma de la cantidad de todos los detalles
-    numcheque.totalarticulos = sum([detalle.cantidad for detalle in Cheqdet.objects.filter(foliodet=folio)])
-    # Obtener la suma de todos los precios de los detalles
-    numcheque.subtotal = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16)
-    numcheque.total = sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])
-    numcheque.totalconpropina = numcheque.total
-    numcheque.totalimpuesto1 = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16) * Decimal(0.16)
-    numcheque.cargo = 0
-    numcheque.totalconcargo = numcheque.total + numcheque.cargo
-    numcheque.totalconpropinacargo = numcheque.total + numcheque.cargo
-    numcheque.descuentoimporte = 0
-    numcheque.efectivo = numcheque.total
-    numcheque.tarjeta = 0
-    numcheque.vales = 0
-    numcheque.otros = 0
+    numcheques = Cheques.objects.filter(folio=folio)
+    for numcheque in numcheques:
+        # Alteraciones en el cheque
+        numcheque.cambio = 0
+        numcheque.descuento = 0
+        numcheque.usuariodescuento = ""
+        # Obtener la suma de la cantidad de todos los detalles
+        numcheque.totalarticulos = sum([detalle.cantidad for detalle in Cheqdet.objects.filter(foliodet=folio)])
+        # Obtener la suma de todos los precios de los detalles
+        numcheque.subtotal = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16)
+        numcheque.total = sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])
+        numcheque.totalconpropina = numcheque.total + numcheque.propina
+        numcheque.totalimpuesto1 = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16) * Decimal(0.16)
+        numcheque.cargo = 0
+        numcheque.totalconcargo = numcheque.total + numcheque.cargo
+        numcheque.totalconpropinacargo = numcheque.total + numcheque.propina + numcheque.cargo
+        numcheque.descuentoimporte = 0
+        numcheque.efectivo = numcheque.total
+        numcheque.tarjeta = 0
+        numcheque.vales = 0
+        numcheque.otros = 0
 
-    numcheque.totalsindescuento = numcheque.total
-    numcheque.totalbebidas = numcheque.totalbebidas + (p_d.precio*cantidad)
-    numcheque.totaldescuentos = 0
-    numcheque.totaldescuentoalimentos = 0
-    numcheque.totaldescuentobebidas = 0
-    numcheque.totaldescuentootros = 0
+        numcheque.totalsindescuento = numcheque.total
+        numcheque.totalbebidas = numcheque.totalbebidas + (p_d.precio*cantidad)
+        numcheque.totaldescuentos = 0
+        numcheque.totaldescuentoalimentos = 0
+        numcheque.totaldescuentobebidas = 0
+        numcheque.totaldescuentootros = 0
 
-    numcheque.totalcortesias = 0
-    numcheque.totalcortesiaalimentos = 0
-    numcheque.totalcortesiabebidas = 0
-    numcheque.totalcortesiaotros = 0
-    numcheque.totaldescuentoycortesia = 0
+        numcheque.totalcortesias = 0
+        numcheque.totalcortesiaalimentos = 0
+        numcheque.totalcortesiabebidas = 0
+        numcheque.totalcortesiaotros = 0
+        numcheque.totaldescuentoycortesia = 0
 
-    numcheque.totalbebidassindescuentos = numcheque.totalbebidas
-    numcheque.descuentocriterio = 0
-    numcheque.descuentomonedero = 0
-    numcheque.subtotalcondescuento = numcheque.subtotal
-    try:
-        numcheque.update()
-    except Exception as e:
-        print(f"Error al guardar el cheque: {e}")
+        numcheque.totalbebidassindescuentos = numcheque.totalbebidas
+        numcheque.descuentocriterio = 0
+        numcheque.descuentomonedero = 0
+        numcheque.subtotalcondescuento = numcheque.subtotal
+        try:
+            numcheque.save()
+        except Exception as e:
+            print(f"Error al guardar el cheque: {e}")
         return False
+
     return True
 
 def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
