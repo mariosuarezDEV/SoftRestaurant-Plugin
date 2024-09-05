@@ -1323,6 +1323,7 @@ class Cheques(models.Model):
     tipoventarapida = models.DecimalField(max_digits=1, decimal_places=0, blank=True, null=True)
     callcenter = models.BooleanField(blank=True, null=True)
     idordencompra = models.BigIntegerField(blank=True, null=True)
+
     totalsindescuento = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     totalalimentos = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     totalbebidas = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)

@@ -335,7 +335,7 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
             cheqdet.save()
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
-def sustituye_inversa(produto_id, cantidad, detalles):
+def sustituye_inversa(produto_id, cantidad, detalles,folio):
     try:
         producto = Productos.objects.get(idproducto=produto_id)
         p_d = Productosdetalle.objects.get(idproducto=produto_id)
@@ -359,15 +359,63 @@ def sustituye_inversa(produto_id, cantidad, detalles):
         detalle.productocompuestoprincipal = False
         detalle.preciocatalogo = p_d.precio
         detalle.idcortesia = 0
-        detalle.save()
-    return True
+        try:
+            detalle.save()
+        except models.Model.DoesNotExist as e:
+            print(f"Error al guardar el detalle: {e} del folio {detalle.foliodet}")
+            return False
+    # Obtener el cheque
+    numcheque = Cheques.objects.get(folio=folio)
+    # Alteraciones en el cheque
+    numcheque.cambio = 0
+    numcheque.descuento = 0
+    numcheque.usuariodescuento = ""
+    # Obtener la suma de la cantidad de todos los detalles
+    numcheque.totalarticulos = sum([detalle.cantidad for detalle in detalles])
+    # Obtener la suma de todos los precios de los detalles
+    numcheque.subtotal = (sum([detalle.precio for detalle in detalles])) / Decimal(1.16)
+    numcheque.total = sum([detalle.precio for detalle in detalles])
+    numcheque.totalconpropina = numcheque.total + numcheque.propina
+    numcheque.totalimpuesto1 = (sum([detalle.precio for detalle in detalles])) / Decimal(1.16) * Decimal(0.16)
+    numcheque.cargo = 0
+    numcheque.totalconcargo = numcheque.total + numcheque.cargo
+    numcheque.totalconpropinacargo = numcheque.total + numcheque.propina + numcheque.cargo
+    numcheque.descuentoimporte = 0
+    numcheque.efectivo = numcheque.total
+    numcheque.tarjeta = 0
+    numcheque.vales = 0
+    numcheque.otros = 0
 
+    numcheque.totalsindescuento = numcheque.total
+    numcheque.totalbebidas = numcheque.totalbebidas + (p_d.precio*cantidad)
+    numcheque.totaldescuentos = 0
+    numcheque.totaldescuentoalimentos = 0
+    numcheque.totaldescuentobebidas = 0
+    numcheque.totaldescuentootros = 0
+
+    numcheque.totalcortesias = 0
+    numcheque.totalcortesiaalimentos = 0
+    numcheque.totalcortesiabebidas = 0
+    numcheque.totalcortesiaotros = 0
+    numcheque.totaldescuentoycortesia = 0
+
+    numcheque.totalbebidassindescuentos = numcheque.totalbebidas
+    numcheque.descuentocriterio = 0
+    numcheque.descuentomonedero = 0
+    numcheque.subtotalcondescuento = numcheque.subtotal
+    # Guardar los cambios
+    try:
+        numcheque.save()
+    except models.Model.DoesNotExist as e:
+        print(f"Error al guardar el cheque: {e}")
+        return False
+    return True
 
 def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
     for cheque in queryset: # Recorrer cheqdet
         # Obtener los detalles del cheque (cuando movimiento sea igual a 1)
         detalles = Cheqdet.objects.filter(foliodet=cheque.folio, movimiento=1)
-        if sustituye_inversa("13005", 1, detalles):
+        if sustituye_inversa("13005", 1, detalles, cheque.folio):
             modeladmin.message_user(request, "El mantenimiento se hizo correctamente.")
         else:
             modeladmin.message_user(request, "Error al aplicar los cambios, consulta la consola!.")
