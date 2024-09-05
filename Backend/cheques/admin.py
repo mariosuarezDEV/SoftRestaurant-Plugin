@@ -373,8 +373,8 @@ def sustituye_inversa(produto_id, cantidad, detalles,folio):
     # Obtener la suma de la cantidad de todos los detalles
     numcheque.totalarticulos = sum([detalle.cantidad for detalle in Cheqdet.objects.filter(foliodet=folio)])
     # Obtener la suma de todos los precios de los detalles
-    numcheque.subtotal = (sum([detalle.precio for detalle in detalles])) / Decimal(1.16)
-    numcheque.total = sum([detalle.precio for detalle in detalles])
+    numcheque.subtotal = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16)
+    numcheque.total = sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])
     numcheque.totalconpropina = numcheque.total + numcheque.propina
     numcheque.totalimpuesto1 = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16) * Decimal(0.16)
     numcheque.cargo = 0
