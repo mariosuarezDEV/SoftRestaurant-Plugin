@@ -452,6 +452,7 @@ class ver_solo_cuentas_efectivo_no_facturadas_mayores_120(admin.SimpleListFilter
         return (
             ('efectivo_no_facturado', 'Cuentas en efectivo no facturadas mayores a $120'),
             ('cero', 'Cuentas en cero'),
+            ('inversa', 'Cuentas en efectivo no facturadas menores a $300'),
             ('moficadas', 'Con mantenimiento de venta'),
 
         )
@@ -463,6 +464,8 @@ class ver_solo_cuentas_efectivo_no_facturadas_mayores_120(admin.SimpleListFilter
             return queryset.filter(facturado=False, mesa__icontains="P/LL")
         elif self.value() == 'cero':
             return queryset.filter(efectivo=0, tarjeta=0, total=0)
+        elif self.value() == 'inversa':
+            return queryset.filter(efectivo__lt=300, tarjeta=0, facturado=False)
 
         return queryset
 
