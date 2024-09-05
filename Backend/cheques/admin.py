@@ -335,30 +335,31 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
             cheqdet.save()
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
-def sustituye_inversa(produto_id, cantidad, detalle):
+def sustituye_inversa(produto_id, cantidad, detalles):
     try:
         producto = Productos.objects.get(idproducto=produto_id)
         p_d = Productosdetalle.objects.get(idproducto=produto_id)
     except Productos.DoesNotExist:
         print(f"El producto con id '{produto_id}' no existe.")
         return False
-    detalle.cantida = cantidad
-    detalle.idproducto = producto.idproducto
-    detalle.descuento = 0
-    detalle.precio = p_d.precio
-    detalle.impuesto1 = p_d.precio * Decimal(0.16)
-    detalle.preciosinimpuestos = p_d.preciosinimpuestos
-    detalle.modficador = False
-    detalle.mitad = False
-    detalle.comentario = ""
-    detalle.usuariodescuento = ""
-    detalle.comentariodescuento = ""
-    detalle.idtipodescuento = ""
-    detalle.idproductocompuesto = ""
-    detalle.productocompuestoprincipal = False
-    detalle.preciocatalogo = p_d.precio
-    detalle.idcortesia = 0
-    detalle.save()
+    for detalle in detalles:
+        detalle.cantida = cantidad
+        detalle.idproducto = producto.idproducto
+        detalle.descuento = 0
+        detalle.precio = p_d.precio
+        detalle.impuesto1 = p_d.precio * Decimal(0.16)
+        detalle.preciosinimpuestos = p_d.preciosinimpuestos
+        detalle.modficador = False
+        detalle.mitad = False
+        detalle.comentario = ""
+        detalle.usuariodescuento = ""
+        detalle.comentariodescuento = ""
+        detalle.idtipodescuento = ""
+        detalle.idproductocompuesto = ""
+        detalle.productocompuestoprincipal = False
+        detalle.preciocatalogo = p_d.precio
+        detalle.idcortesia = 0
+        detalle.save()
     return True
 
 
