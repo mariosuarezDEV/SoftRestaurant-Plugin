@@ -406,7 +406,7 @@ def sustituye_inversa(produto_id, cantidad, detalles,folio):
     # Guardar los cambios
     try:
         numcheque.save()
-    except models.Model.DoesNotExist as e:
+    except Exception as e:
         print(f"Error al guardar el cheque: {e}")
         return False
     return True
