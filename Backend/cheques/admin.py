@@ -338,17 +338,38 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
 def sustituye_inversa(produto_id, cantidad, detalle):
     try:
         producto = Productos.objects.get(idproducto=produto_id)
+        p_d = Productosdetalle.objects.get(idproducto=produto_id)
     except Productos.DoesNotExist:
         print(f"El producto con id '{produto_id}' no existe.")
-        return
-    print(f"Entro en proceso de sustitución inversa por el producto {producto.descripcion}")
+        return False
+    detalle.cantida = cantidad
+    detalle.idproducto = producto.idproducto
+    detalle.descuento = 0
+    detalle.precio = p_d.precio
+    detalle.impuesto1 = p_d.precio * Decimal(0.16)
+    detalle.preciosinimpuestos = p_d.preciosinimpuestos
+    detalle.modficador = False
+    detalle.mitad = False
+    detalle.comentario = ""
+    detalle.usuariodescuento = ""
+    detalle.comentariodescuento = ""
+    detalle.idtipodescuento = ""
+    detalle.idproductocompuesto = ""
+    detalle.productocompuestoprincipal = False
+    detalle.preciocatalogo = p_d.precio
+    detalle.idcortesia = 0
+    detalle.save()
+    return True
 
 
 def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
     for cheque in queryset: # Recorrer cheqdet
         # Obtener los detalles del cheque (cuando movimiento sea igual a 1)
         detalles = Cheqdet.objects.filter(foliodet=cheque.folio, movimiento=1)
-        sustituye_inversa("13005", 1, detalles)
+        if sustituye_inversa("13005", 1, detalles):
+            modeladmin.message_user(request, "El mantenimiento se hizo correctamente.")
+        else:
+            modeladmin.message_user(request, "Error al aplicar los cambios, consulta la consola!.")
 
 sustituir_producto_uno.short_description = "Sustituir por Café en grano 1/4"
 sustituir_producto_dos.short_description = "Sustituir por Pan para llevar"
@@ -406,7 +427,7 @@ class ChequesAdmin(admin.ModelAdmin):
 @admin.register(Cheqdet)
 class CheqdetAdmin(admin.ModelAdmin):
     search_fields = ("foliodet",)
-    list_display=("foliodet",)
+    list_display=("foliodet", "cantidad", "idproducto", "precio", "impuesto1", "preciosinimpuestos")
 
 
 admin.site.register(Productos)
