@@ -365,47 +365,47 @@ def sustituye_inversa(produto_id, cantidad, detalles,folio):
             print(f"Error al guardar el detalle: {e} del folio {detalle.foliodet}")
             return False
     # Obtener el cheque
-    numcheques = Cheques.objects.filter(folio=folio)
-    for numcheque in numcheques:
+    cheque_changes = Cheques.objects.filter(folio=folio)
+    for cheque_change in cheque_changes:
         # Alteraciones en el cheque
-        numcheque.cambio = 0
-        numcheque.descuento = 0
-        numcheque.usuariodescuento = ""
+        cheque_change.cambio = 0
+        cheque_change.descuento = 0
+        cheque_change.usuariodescuento = ""
         # Obtener la suma de la cantidad de todos los detalles
-        numcheque.totalarticulos = sum([detalle.cantidad for detalle in Cheqdet.objects.filter(foliodet=folio)])
+        cheque_change.totalarticulos = sum([detalle.cantidad for detalle in Cheqdet.objects.filter(foliodet=folio)])
         # Obtener la suma de todos los precios de los detalles
-        numcheque.subtotal = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16)
-        numcheque.total = sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])
-        numcheque.totalconpropina = numcheque.total + numcheque.propina
-        numcheque.totalimpuesto1 = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16) * Decimal(0.16)
-        numcheque.cargo = 0
-        numcheque.totalconcargo = numcheque.total + numcheque.cargo
-        numcheque.totalconpropinacargo = numcheque.total + numcheque.propina + numcheque.cargo
-        numcheque.descuentoimporte = 0
-        numcheque.efectivo = numcheque.total
-        numcheque.tarjeta = 0
-        numcheque.vales = 0
-        numcheque.otros = 0
+        cheque_change.subtotal = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16)
+        cheque_change.total = sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])
+        cheque_change.totalconpropina = cheque_change.total + cheque_change.propina
+        cheque_change.totalimpuesto1 = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16) * Decimal(0.16)
+        cheque_change.cargo = 0
+        cheque_change.totalconcargo = cheque_change.total + cheque_change.cargo
+        cheque_change.totalconpropinacargo = cheque_change.total + cheque_change.propina + cheque_change.cargo
+        cheque_change.descuentoimporte = 0
+        cheque_change.efectivo = cheque_change.total
+        cheque_change.tarjeta = 0
+        cheque_change.vales = 0
+        cheque_change.otros = 0
 
-        numcheque.totalsindescuento = numcheque.total
-        numcheque.totalbebidas = numcheque.totalbebidas + (p_d.precio*cantidad)
-        numcheque.totaldescuentos = 0
-        numcheque.totaldescuentoalimentos = 0
-        numcheque.totaldescuentobebidas = 0
-        numcheque.totaldescuentootros = 0
+        cheque_change.totalsindescuento = cheque_change.total
+        cheque_change.totalbebidas = cheque_change.totalbebidas + (p_d.precio*cantidad)
+        cheque_change.totaldescuentos = 0
+        cheque_change.totaldescuentoalimentos = 0
+        cheque_change.totaldescuentobebidas = 0
+        cheque_change.totaldescuentootros = 0
 
-        numcheque.totalcortesias = 0
-        numcheque.totalcortesiaalimentos = 0
-        numcheque.totalcortesiabebidas = 0
-        numcheque.totalcortesiaotros = 0
-        numcheque.totaldescuentoycortesia = 0
+        cheque_change.totalcortesias = 0
+        cheque_change.totalcortesiaalimentos = 0
+        cheque_change.totalcortesiabebidas = 0
+        cheque_change.totalcortesiaotros = 0
+        cheque_change.totaldescuentoycortesia = 0
 
-        numcheque.totalbebidassindescuentos = numcheque.totalbebidas
-        numcheque.descuentocriterio = 0
-        numcheque.descuentomonedero = 0
-        numcheque.subtotalcondescuento = numcheque.subtotal
+        cheque_change.totalbebidassindescuentos = cheque_change.totalbebidas
+        cheque_change.descuentocriterio = 0
+        cheque_change.descuentomonedero = 0
+        cheque_change.subtotalcondescuento = cheque_change.subtotal
         try:
-            numcheque.save()
+            cheque_change.save()
         except Exception as e:
             print(f"Error al guardar el cheque: {e}")
         return False
