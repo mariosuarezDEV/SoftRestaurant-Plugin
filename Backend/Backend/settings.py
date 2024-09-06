@@ -90,11 +90,12 @@ DATABASES = {
             'NAME': 'softrestaurant11',
             'USER': 'sa',
             'PASSWORD': 'National09',
-            'HOST': 'DESKTOP-5RLQU6J\\NATIONALSOFT',
+            'HOST': '192.168.195.61',
             'PORT': '1433',
             'OPTIONS': {
-                        'driver': 'ODBC Driver 18 for SQL Server',
-                        'extra_params': 'TrustServerCertificate=yes;',
+                        'driver': 'ODBC Driver 17 for SQL Server',
+                        'TrustServerCertificate': 'yes',
+                        'Encrypt': 'yes',
                     },
         },
     }
