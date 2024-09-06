@@ -6057,7 +6057,7 @@ class Productos(models.Model):
     imagenbackoffice = models.BinaryField(blank=True, null=True)
     monitoreo = models.BooleanField()
     prioridadimpresion = models.DecimalField(max_digits=4, decimal_places=0, blank=True, null=True)
-    #idbo = models.IntegerField(db_column='IdBO', blank=True, null=True)  # Field name made lowercase.
+    idbo = models.IntegerField(db_column='IdBO', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False

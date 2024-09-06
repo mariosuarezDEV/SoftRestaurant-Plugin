@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     pkg-config \
     libmariadb-dev \
+    unixodbc-dev \
+    tk \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -28,4 +30,4 @@ RUN pip install --no-cache-dir --upgrade pip \
 EXPOSE 80
 
 # Ejecutar el servicio
-CMD ["daphne", "-b", "0.0.0.0", "-p", "80", "SuiteFC.asgi:application"]
+CMD ["daphne", "-b", "0.0.0.0", "-p", "80", "Backend.asgi:application"]
