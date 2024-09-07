@@ -85,20 +85,19 @@ DATABASES_SQLITE = {
 
 
 DATABASES = {
-        'default': {
-            'ENGINE': 'mssql',
-            'NAME': 'softrestaurant11',
-            'USER': 'sa',
-            'PASSWORD': 'National09',
-            'HOST': '192.168.195.61',
-            'PORT': '1433',
-            'OPTIONS': {
-                        'driver': 'ODBC Driver 17 for SQL Server',
-                        'TrustServerCertificate': 'yes',
-                        'Encrypt': 'yes',
-                    },
+    'default': {
+        'ENGINE': 'mssql',
+        'NAME': 'softrestaurant11',
+        'USER': 'sa',
+        'PASSWORD': 'National09',
+        'HOST': '192.168.195.61',
+        'PORT': '1433',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 18 for SQL Server',
+            'extra_params': 'Encrypt=no;TrustServerCertificate=yes'
         },
-    }
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
