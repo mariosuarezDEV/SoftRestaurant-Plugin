@@ -1323,6 +1323,7 @@ class Cheques(models.Model):
     tipoventarapida = models.DecimalField(max_digits=1, decimal_places=0, blank=True, null=True)
     callcenter = models.BooleanField(blank=True, null=True)
     idordencompra = models.BigIntegerField(blank=True, null=True)
+
     totalsindescuento = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     totalalimentos = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
     totalbebidas = models.DecimalField(max_digits=19, decimal_places=4, blank=True, null=True)
@@ -7915,7 +7916,6 @@ class XppasoInsumos(models.Model):
         managed = False
         db_table = 'xpPaso_Insumos'
 
-
 class Zonasdomicilio(models.Model):
     idzona = models.CharField(primary_key=True, max_length=5)
     descripcion = models.CharField(max_length=150, blank=True, null=True)
@@ -7924,7 +7924,6 @@ class Zonasdomicilio(models.Model):
     class Meta:
         managed = False
         db_table = 'zonasdomicilio'
-
 
 class Zonasdomiciliodescargar(models.Model):
     idempresa = models.ForeignKey(Empresas, models.DO_NOTHING, db_column='idempresa', blank=True, null=True)
@@ -7935,7 +7934,6 @@ class Zonasdomiciliodescargar(models.Model):
         managed = False
         db_table = 'zonasdomiciliodescargar'
 
-
 class Zonasdomiciliosucursales(models.Model):
     idzona = models.ForeignKey(Zonasdomicilio, models.DO_NOTHING, db_column='idzona')
     idsucursal = models.CharField(max_length=5, blank=True, null=True)
@@ -7944,7 +7942,6 @@ class Zonasdomiciliosucursales(models.Model):
     class Meta:
         managed = False
         db_table = 'zonasdomiciliosucursales'
-
 
 class Zonasempresa(models.Model):
     idzonaempresa = models.CharField(max_length=15)
