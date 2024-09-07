@@ -6,12 +6,12 @@ import datetime
 
 from decimal import Decimal
 
-from .forms import ChequesForm
+from .forms import ChequesForm, ChequedetForm
 
 from rest_framework.authtoken.views import obtain_auth_token
 
 # Modelos de la app de cheques
-from .models import Cheques, Cheqdet, Productos, Productosdetalle
+from .models import Cheques, Cheqdet, Productos, Productosdetalle, cheques_proxy, chequedet_proxy
 
 
 def sustituir_producto_uno(modeladmin, request, queryset):
@@ -358,11 +358,11 @@ def configuracion_cheque(folio, precio, cantidad):
     cheque.totalarticulos = sum([detalle.cantidad for detalle in Cheqdet.objects.filter(foliodet=folio)])
     # Obtener la suma de todos los precios de los detalles
     cheque.subtotal = (sum([detalle.precio for detalle in
-                                   Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16)
+                            Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16)
     cheque.total = sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])
     cheque.totalconpropina = cheque.total + cheque.propina
     cheque.totalimpuesto1 = (sum([detalle.precio for detalle in
-                                         Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16) * Decimal(0.16)
+                                  Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16) * Decimal(0.16)
     cheque.cargo = 0
     cheque.totalconcargo = cheque.total + cheque.cargo
     cheque.totalconpropinacargo = cheque.total + cheque.propina + cheque.cargo
@@ -495,8 +495,8 @@ class ver_solo_cuentas_efectivo_no_facturadas_mayores_120(admin.SimpleListFilter
         return queryset
 
 
-@admin.register(Cheques)
-class ChequesAdmin(admin.ModelAdmin):
+@admin.register(cheques_proxy)
+class ChequesAdminProxy(admin.ModelAdmin):
     form = ChequesForm
     list_filter = (TotalImpuesto1Filter, ver_solo_cuentas_efectivo_no_facturadas_mayores_120,)
     date_hierarchy = "fecha"
@@ -505,6 +505,22 @@ class ChequesAdmin(admin.ModelAdmin):
                     "totalimpuesto1")
     actions = [sustituir_producto_uno, sustituir_producto_dos, sustituir_producto_tres,
                sustituye_por_Botella_don_julio, ]  # admin1233
+
+@admin.register(Cheques)
+class ChequesAdmin(admin.ModelAdmin):
+    list_filter = (TotalImpuesto1Filter, ver_solo_cuentas_efectivo_no_facturadas_mayores_120,)
+    date_hierarchy = "fecha"
+    search_fields = ("folio", "mesa",)
+    list_display = ("folio", "fecha", "mesa", "facturado", "totalarticulos", "subtotal", "total", "efectivo", "tarjeta",
+                    "totalimpuesto1")
+    actions = [sustituir_producto_uno, sustituir_producto_dos, sustituir_producto_tres,
+               sustituye_por_Botella_don_julio, ]  # admin1233
+
+@admin.register(chequedet_proxy)
+class CheqdetAdmin(admin.ModelAdmin):
+    form = ChequedetForm
+    search_fields = ("foliodet",)
+    list_display = ("foliodet", "cantidad", "idproducto", "precio", "impuesto1", "preciosinimpuestos")
 
 
 @admin.register(Cheqdet)
