@@ -1,0 +1,13 @@
+Crear un formulario para la vista de los usuario no administradores.
+
+Crear un modelo proxy para que sea mostrado en el formulario
+
+Instalacion de proxmox para el despligue de el servicio en un maquina windows
+
+Agregar un metodo de busqueda para productos y detalles de los productos
+
+
+Clave - Descripcion corta - Precio sin iva - Precio con IVA - Impuesto 1
+
+
+La busqueda del producto debe ser por clave y descripcion.

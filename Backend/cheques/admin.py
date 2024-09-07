@@ -6,6 +6,8 @@ import datetime
 
 from decimal import Decimal
 
+from .forms import ChequesForm
+
 from rest_framework.authtoken.views import obtain_auth_token
 
 # Modelos de la app de cheques
@@ -495,6 +497,7 @@ class ver_solo_cuentas_efectivo_no_facturadas_mayores_120(admin.SimpleListFilter
 
 @admin.register(Cheques)
 class ChequesAdmin(admin.ModelAdmin):
+    form = ChequesForm
     list_filter = (TotalImpuesto1Filter, ver_solo_cuentas_efectivo_no_facturadas_mayores_120,)
     date_hierarchy = "fecha"
     search_fields = ("folio", "mesa",)
@@ -510,5 +513,13 @@ class CheqdetAdmin(admin.ModelAdmin):
     list_display = ("foliodet", "cantidad", "idproducto", "precio", "impuesto1", "preciosinimpuestos")
 
 
-admin.site.register(Productos)
-admin.site.register(Productosdetalle)
+@admin.register(Productos)
+class ProductosAdmin(admin.ModelAdmin):
+    search_fields = ("idproducto", "descripcion",)
+    list_display = ("idproducto", "descripcion",)
+
+@admin.register(Productosdetalle)
+class ProductosdetalleAdmin(admin.ModelAdmin):
+    search_fields = ("idproducto",)
+    list_display = ("idproducto", "precio", "impuesto1", "preciosinimpuestos", )
+    list_filter = ("idproducto",)

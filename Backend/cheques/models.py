@@ -7950,3 +7950,6 @@ class Zonasempresa(models.Model):
     class Meta:
         managed = False
         db_table = 'zonasempresa'
+
+## Proxys para el admin y formulario
+
