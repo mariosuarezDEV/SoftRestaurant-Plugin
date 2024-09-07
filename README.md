@@ -99,3 +99,14 @@ python manage.py runserver 0.0.0.0:80
 Si existe un error con código **42S22** puedes ir a la ruta **192.168.1.2/cheques/configurar** lo que hara esta página es corregir los diseño de la base de datos y sean aptas para funcionar con el sistema.
 
 En caso de no existir cierto error y fuiste redirijido automaticamente a **192.168.1.2/cheques/configurar** solo regresa a **192.168.1.2/cheques** y podras empezar a utilizar el sistema.
+
+## Notas de la versión 1.1
+
+### 
+- Se elimino la interfaz de usuario.
+- Se trabaja desde el **admin** creando grupos para controlar los permisos de los usuarios.
+- La modificación de las tablas se debe de hacer de forma manual dado que la ruta que modificaba la base de datos a sido eliminada.
+- El rendimiento del sistema se aumento considerablemente.
+- Actualización del driver 18 de Sql Server.
+- El sistema no puede se ejecutado en entornos Linux y MacOS.
+- La conexión a la base de datos se realiza mediante VPN.
