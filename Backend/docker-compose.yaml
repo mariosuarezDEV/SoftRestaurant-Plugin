@@ -3,13 +3,13 @@ services:
     container_name: hqms_dns
     image: ubuntu/bind9
     ports:
-      - "53:53/udp"
-      - "53:53/tcp"
+      - "54:53/udp"
+      - "54:53/tcp"
     volumes:
-      - "disk_soluRH_dns:/etc/bind"
-      - "disk_soluRH_dns_cache:/var/cache/bind"
-      - "disk_soluRH_dns_records:/var/lib/bind"
-      - "disk_soluRH_default:/etc/default/"
+      - "disk_hqms_dns:/etc/bind"
+      - "disk_hqms_dns_cache:/var/cache/bind"
+      - "disk_hqms_dns_records:/var/lib/bind"
+      - "disk_hqms_default:/etc/default/"
       - "./etc/resolv.conf:/etc/resolv.conf"
     networks:
         red_interna:
