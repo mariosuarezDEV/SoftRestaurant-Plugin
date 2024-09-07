@@ -6,7 +6,7 @@ import datetime
 
 from decimal import Decimal
 
-from .forms import ChequesForm, ChequedetForm
+from .forms import ChequesForm, ChequesdetForm
 
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -342,9 +342,6 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
 
-def sustituye_producto(producto_id, cantidad, detalles, folio):
-    pass
-
 def configuracion_cheque(folio, precio, cantidad):
     #Obtener el cheque con el folio
     cheque = Cheques.objects.get(folio=folio)
@@ -518,7 +515,7 @@ class ChequesAdmin(admin.ModelAdmin):
 
 @admin.register(chequedet_proxy)
 class CheqdetAdmin(admin.ModelAdmin):
-    form = ChequedetForm
+    form = ChequesdetForm
     search_fields = ("foliodet",)
     list_display = ("foliodet", "cantidad", "idproducto", "precio", "impuesto1", "preciosinimpuestos")
 
