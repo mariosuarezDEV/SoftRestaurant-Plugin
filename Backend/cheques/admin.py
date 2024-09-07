@@ -435,10 +435,11 @@ def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
     for cheque in queryset:  # Recorrer cheqdet
         # Obtener los detalles del cheque (cuando movimiento sea igual a 1)
         detalles = Cheqdet.objects.filter(foliodet=cheque.folio, movimiento=1)
-        if sustituye_inversa("13005", 1, detalles, cheque.folio):
-            modeladmin.message_user(request, "El mantenimiento se hizo correctamente.")
+        restconf = sustituye_inversa("13005", 1, detalles, cheque.folio)
+        if restconf:
+            modeladmin.message_user(request, restconf)
         else:
-            modeladmin.message_user(request, "Movimiento aplicado!.")
+            modeladmin.message_user(request, restconf)
 
 
 sustituir_producto_uno.short_description = "Sustituir por Café en grano 1/4"
