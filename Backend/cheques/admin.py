@@ -11,23 +11,24 @@ from rest_framework.authtoken.views import obtain_auth_token
 # Modelos de la app de cheques
 from .models import Cheques, Cheqdet, Productos, Productosdetalle
 
+
 def sustituir_producto_uno(modeladmin, request, queryset):
     productos = Productosdetalle.objects.get(idproducto="034003")
 
-    for objeto in queryset: # Cambiar los cheques
+    for objeto in queryset:  # Cambiar los cheques
         objeto.cierre = objeto.fecha + datetime.timedelta(minutes=3)
         objeto.mesa = "P/LL"
         objeto.nopersonas = 1
         objeto.cambio = 0
         objeto.descuento = 0
         objeto.usuariodescuento = ""
-        objeto.idtipodescuento= ""
+        objeto.idtipodescuento = ""
         objeto.tarjetadescuento = 0
         objeto.totalarticulos = 1
         objeto.subtotal = productos.precio
         objeto.total = productos.precio
         objeto.totalconpropina = productos.precio + objeto.propina
-        objeto.totalimpuesto1 = 0 #Duda
+        objeto.totalimpuesto1 = 0  # Duda
         objeto.totalconcargo = productos.precio + objeto.cargo
         objeto.totalconpropinacargo = productos.precio + objeto.propina + objeto.cargo
         objeto.descuentoimporte = 0
@@ -39,7 +40,7 @@ def sustituir_producto_uno(modeladmin, request, queryset):
         objeto.totalalimentos = 0
         objeto.totalbebidas = 0
         objeto.totalotros = productos.precio
-        objeto.totaldescuentos = 0 #Duda
+        objeto.totaldescuentos = 0  # Duda
         objeto.totaldescuentoalimentos = 0
         objeto.totaldescuentobebidas = 0
         objeto.totaldescuentootros = 0
@@ -86,23 +87,24 @@ def sustituir_producto_uno(modeladmin, request, queryset):
             cheqdet.save()
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
+
 def sustituir_producto_dos(modeladmin, request, queryset):
     productos = Productosdetalle.objects.get(idproducto="042035")
 
-    for objeto in queryset: # Cambiar los cheques
+    for objeto in queryset:  # Cambiar los cheques
         objeto.cierre = objeto.fecha + datetime.timedelta(minutes=3)
         objeto.mesa = "P/LL"
         objeto.nopersonas = 1
         objeto.cambio = 0
         objeto.descuento = 0
         objeto.usuariodescuento = ""
-        objeto.idtipodescuento= ""
+        objeto.idtipodescuento = ""
         objeto.tarjetadescuento = 0
         objeto.totalarticulos = 1
         objeto.subtotal = productos.precio
         objeto.total = productos.precio
         objeto.totalconpropina = productos.precio + objeto.propina
-        objeto.totalimpuesto1 = 0 #Duda
+        objeto.totalimpuesto1 = 0  # Duda
         objeto.totalconcargo = productos.precio + objeto.cargo
         objeto.totalconpropinacargo = productos.precio + objeto.propina + objeto.cargo
         objeto.descuentoimporte = 0
@@ -114,7 +116,7 @@ def sustituir_producto_dos(modeladmin, request, queryset):
         objeto.totalalimentos = 0
         objeto.totalbebidas = 0
         objeto.totalotros = productos.precio
-        objeto.totaldescuentos = 0 #Duda
+        objeto.totaldescuentos = 0  # Duda
         objeto.totaldescuentoalimentos = 0
         objeto.totaldescuentobebidas = 0
         objeto.totaldescuentootros = 0
@@ -161,17 +163,18 @@ def sustituir_producto_dos(modeladmin, request, queryset):
             cheqdet.save()
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
+
 def sustituir_producto_tres(modeladmin, request, queryset):
     productos = Productosdetalle.objects.get(idproducto="V007021")
 
-    for objeto in queryset: # Cambiar los cheques
+    for objeto in queryset:  # Cambiar los cheques
         objeto.cierre = objeto.fecha + datetime.timedelta(minutes=5)
         objeto.mesa = "P/LL"
         objeto.nopersonas = 1
         objeto.cambio = 0
         objeto.descuento = 0
         objeto.usuariodescuento = ""
-        objeto.idtipodescuento= ""
+        objeto.idtipodescuento = ""
         objeto.tarjetadescuento = 0
         objeto.totalarticulos = 2
         objeto.subtotal = productos.preciosinimpuestos * objeto.totalarticulos
@@ -189,7 +192,7 @@ def sustituir_producto_tres(modeladmin, request, queryset):
         objeto.totalalimentos = 0
         objeto.totalbebidas = 0
         objeto.totalotros = objeto.total
-        objeto.totaldescuentos = 0 #Duda
+        objeto.totaldescuentos = 0  # Duda
         objeto.totaldescuentoalimentos = 0
         objeto.totaldescuentobebidas = 0
         objeto.totaldescuentootros = 0
@@ -200,11 +203,11 @@ def sustituir_producto_tres(modeladmin, request, queryset):
         objeto.totalalimentossindescuentos = 0
         objeto.totalbebidasindescuentos = 0
 
-        objeto.totaldescuentoycortesia=0
-        objeto.totalalimentossindescuentos=0
-        objeto.totalbebidassindescuentos=0
-        objeto.totalotrossindescuentos=0
-        objeto.descuentocriterios=0
+        objeto.totaldescuentoycortesia = 0
+        objeto.totalalimentossindescuentos = 0
+        objeto.totalbebidassindescuentos = 0
+        objeto.totalotrossindescuentos = 0
+        objeto.descuentocriterios = 0
 
         objeto.totalotrosindescuentos = objeto.total
         objeto.desc_imp_original = 0
@@ -248,17 +251,18 @@ def sustituir_producto_tres(modeladmin, request, queryset):
             cheqdet.save()
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
+
 def sustituir_producto_cuatro(modeladmin, request, queryset):
     productos = Productosdetalle.objects.get(idproducto="13005")
 
-    for objeto in queryset: # Cambiar los cheques
+    for objeto in queryset:  # Cambiar los cheques
         objeto.cierre = objeto.fecha + datetime.timedelta(minutes=5)
         objeto.mesa = "P/LL"
         objeto.nopersonas = 1
         objeto.cambio = 0
         objeto.descuento = 0
         objeto.usuariodescuento = ""
-        objeto.idtipodescuento= ""
+        objeto.idtipodescuento = ""
         objeto.tarjetadescuento = 0
         objeto.totalarticulos = 1
         objeto.subtotal = productos.preciosinimpuestos * objeto.totalarticulos
@@ -276,7 +280,7 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
         objeto.totalalimentos = 0
         objeto.totalbebidas = 0
         objeto.totalotros = objeto.total
-        objeto.totaldescuentos = 0 #Duda
+        objeto.totaldescuentos = 0  # Duda
         objeto.totaldescuentoalimentos = 0
         objeto.totaldescuentobebidas = 0
         objeto.totaldescuentootros = 0
@@ -287,11 +291,11 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
         objeto.totalalimentossindescuentos = 0
         objeto.totalbebidasindescuentos = 0
 
-        objeto.totaldescuentoycortesia=0
-        objeto.totalalimentossindescuentos=0
-        objeto.totalbebidassindescuentos=0
-        objeto.totalotrossindescuentos=0
-        objeto.descuentocriterios=0
+        objeto.totaldescuentoycortesia = 0
+        objeto.totalalimentossindescuentos = 0
+        objeto.totalbebidassindescuentos = 0
+        objeto.totalotrossindescuentos = 0
+        objeto.descuentocriterios = 0
 
         objeto.totalotrosindescuentos = objeto.total
         objeto.desc_imp_original = 0
@@ -335,7 +339,8 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
             cheqdet.save()
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
-def sustituye_inversa(produto_id, cantidad, detalles,folio):
+
+def sustituye_inversa(produto_id, cantidad, detalles, folio):
     try:
         producto = Productos.objects.get(idproducto=produto_id)
         p_d = Productosdetalle.objects.get(idproducto=produto_id)
@@ -367,54 +372,58 @@ def sustituye_inversa(produto_id, cantidad, detalles,folio):
     # Obtener el cheque
 
     try:
-        cheque_change = Cheques.objects.get(folio=folio)
-        # Alteraciones en el cheque
-        cheque_change.cambio = 0
-        cheque_change.descuento = 0
-        cheque_change.usuariodescuento = ""
-        # Obtener la suma de la cantidad de todos los detalles
-        cheque_change.totalarticulos = sum([detalle.cantidad for detalle in Cheqdet.objects.filter(foliodet=folio)])
-        # Obtener la suma de todos los precios de los detalles
-        cheque_change.subtotal = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16)
-        cheque_change.total = sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])
-        cheque_change.totalconpropina = cheque_change.total + cheque_change.propina
-        cheque_change.totalimpuesto1 = (sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16) * Decimal(0.16)
-        cheque_change.cargo = 0
-        cheque_change.totalconcargo = cheque_change.total + cheque_change.cargo
-        cheque_change.totalconpropinacargo = cheque_change.total + cheque_change.propina + cheque_change.cargo
-        cheque_change.descuentoimporte = 0
-        cheque_change.efectivo = cheque_change.total
-        cheque_change.tarjeta = 0
-        cheque_change.vales = 0
-        cheque_change.otros = 0
+        cheque_changes = Cheques.objects.get(folio=folio)
+        for cheque_change in cheque_changes:
+            # Alteraciones en el cheque
+            cheque_change.cambio = 0
+            cheque_change.descuento = 0
+            cheque_change.usuariodescuento = ""
+            # Obtener la suma de la cantidad de todos los detalles
+            cheque_change.totalarticulos = sum([detalle.cantidad for detalle in Cheqdet.objects.filter(foliodet=folio)])
+            # Obtener la suma de todos los precios de los detalles
+            cheque_change.subtotal = (sum([detalle.precio for detalle in
+                                           Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16)
+            cheque_change.total = sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])
+            cheque_change.totalconpropina = cheque_change.total + cheque_change.propina
+            cheque_change.totalimpuesto1 = (sum([detalle.precio for detalle in
+                                                 Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16) * Decimal(0.16)
+            cheque_change.cargo = 0
+            cheque_change.totalconcargo = cheque_change.total + cheque_change.cargo
+            cheque_change.totalconpropinacargo = cheque_change.total + cheque_change.propina + cheque_change.cargo
+            cheque_change.descuentoimporte = 0
+            cheque_change.efectivo = cheque_change.total
+            cheque_change.tarjeta = 0
+            cheque_change.vales = 0
+            cheque_change.otros = 0
 
-        cheque_change.totalsindescuento = cheque_change.total
-        cheque_change.totalbebidas = cheque_change.totalbebidas + (p_d.precio*cantidad)
-        cheque_change.totaldescuentos = 0
-        cheque_change.totaldescuentoalimentos = 0
-        cheque_change.totaldescuentobebidas = 0
-        cheque_change.totaldescuentootros = 0
+            cheque_change.totalsindescuento = cheque_change.total
+            cheque_change.totalbebidas = cheque_change.totalbebidas + (p_d.precio * cantidad)
+            cheque_change.totaldescuentos = 0
+            cheque_change.totaldescuentoalimentos = 0
+            cheque_change.totaldescuentobebidas = 0
+            cheque_change.totaldescuentootros = 0
 
-        cheque_change.totalcortesias = 0
-        cheque_change.totalcortesiaalimentos = 0
-        cheque_change.totalcortesiabebidas = 0
-        cheque_change.totalcortesiaotros = 0
-        cheque_change.totaldescuentoycortesia = 0
+            cheque_change.totalcortesias = 0
+            cheque_change.totalcortesiaalimentos = 0
+            cheque_change.totalcortesiabebidas = 0
+            cheque_change.totalcortesiaotros = 0
+            cheque_change.totaldescuentoycortesia = 0
 
-        cheque_change.totalbebidassindescuentos = cheque_change.totalbebidas
-        cheque_change.descuentocriterio = 0
-        cheque_change.descuentomonedero = 0
-        cheque_change.subtotalcondescuento = cheque_change.subtotal
+            cheque_change.totalbebidassindescuentos = cheque_change.totalbebidas
+            cheque_change.descuentocriterio = 0
+            cheque_change.descuentomonedero = 0
+            cheque_change.subtotalcondescuento = cheque_change.subtotal
 
-        cheque_change.save()
-        print(f"Cheque {folio} actualizado correctamente.")
-        return True
+            cheque_change.save()
+            print(f"Cheque {folio} actualizado correctamente.")
+            return True
     except Exception as e:
         print(f"Error al guardar el cheque: {e}")
         return False
 
+
 def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
-    for cheque in queryset: # Recorrer cheqdet
+    for cheque in queryset:  # Recorrer cheqdet
         # Obtener los detalles del cheque (cuando movimiento sea igual a 1)
         detalles = Cheqdet.objects.filter(foliodet=cheque.folio, movimiento=1)
         if sustituye_inversa("13005", 1, detalles, cheque.folio):
@@ -422,18 +431,21 @@ def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
         else:
             modeladmin.message_user(request, "Movimiento aplicado!.")
 
+
 sustituir_producto_uno.short_description = "Sustituir por Café en grano 1/4"
 sustituir_producto_dos.short_description = "Sustituir por Pan para llevar"
 sustituir_producto_tres.short_description = "Sustituir por Cargas de café"
 sustituye_por_Botella_don_julio.short_description = "Sustituir por Botella Tequilia Don Julio 70 Aniversario"
 
+
 class TotalImpuesto1Filter(admin.SimpleListFilter):
-    title = 'Impuesto' # Nombre que se mostrara en el filtro
-    parameter_name = 'totalimpuesto1' # Nombre del parametro que se enviara por POST y GET (este campo es la columna en la base de datos)
+    title = 'Impuesto'  # Nombre que se mostrara en el filtro
+    parameter_name = 'totalimpuesto1'  # Nombre del parametro que se enviara por POST y GET (este campo es la columna en la base de datos)
 
     def lookups(self, request, model_admin):
-        return ( # Devuelve una lista de tuplas
-            ('0', 'Tasa 0'), # El primer valor es el valor que se enviara por POST y GET, el segundo valor es el que se mostrara en el filtro
+        return (  # Devuelve una lista de tuplas
+            ('0', 'Tasa 0'),
+            # El primer valor es el valor que se enviara por POST y GET, el segundo valor es el que se mostrara en el filtro
             ('not_0', 'Tasa 16 efectivo'),
         )
 
@@ -444,9 +456,10 @@ class TotalImpuesto1Filter(admin.SimpleListFilter):
             return queryset.exclude(totalimpuesto1=0).filter(efectivo__gt=0, tarjeta=0)
         return queryset
 
+
 class ver_solo_cuentas_efectivo_no_facturadas_mayores_120(admin.SimpleListFilter):
-    title = 'Tipos de cuentas' # Nombre que se mostrara en el filtro
-    parameter_name = 'tipo_de_cuenta' # Identificador del filtro en la url
+    title = 'Tipos de cuentas'  # Nombre que se mostrara en el filtro
+    parameter_name = 'tipo_de_cuenta'  # Identificador del filtro en la url
 
     def lookups(self, request, model_admin):
         return (
@@ -474,14 +487,17 @@ class ver_solo_cuentas_efectivo_no_facturadas_mayores_120(admin.SimpleListFilter
 class ChequesAdmin(admin.ModelAdmin):
     list_filter = (TotalImpuesto1Filter, ver_solo_cuentas_efectivo_no_facturadas_mayores_120,)
     date_hierarchy = "fecha"
-    search_fields = ("folio", "mesa", )
-    list_display=("folio", "fecha", "mesa", "facturado", "totalarticulos", "subtotal", "total", "efectivo", "tarjeta", "totalimpuesto1" )
-    actions = [sustituir_producto_uno, sustituir_producto_dos, sustituir_producto_tres, sustituye_por_Botella_don_julio, ] #admin1233
+    search_fields = ("folio", "mesa",)
+    list_display = ("folio", "fecha", "mesa", "facturado", "totalarticulos", "subtotal", "total", "efectivo", "tarjeta",
+                    "totalimpuesto1")
+    actions = [sustituir_producto_uno, sustituir_producto_dos, sustituir_producto_tres,
+               sustituye_por_Botella_don_julio, ]  # admin1233
+
 
 @admin.register(Cheqdet)
 class CheqdetAdmin(admin.ModelAdmin):
     search_fields = ("foliodet",)
-    list_display=("foliodet", "cantidad", "idproducto", "precio", "impuesto1", "preciosinimpuestos")
+    list_display = ("foliodet", "cantidad", "idproducto", "precio", "impuesto1", "preciosinimpuestos")
 
 
 admin.site.register(Productos)

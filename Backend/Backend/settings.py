@@ -94,7 +94,7 @@ DATABASES = {
         'PORT': '1433',
         'OPTIONS': {
             'driver': 'ODBC Driver 18 for SQL Server',
-            'extra_params': 'Encrypt=no;TrustServerCertificate=yes'
+            'extra_params': 'Trusted_Connection=yes',
         },
     },
 }
