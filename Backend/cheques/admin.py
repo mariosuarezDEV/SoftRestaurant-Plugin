@@ -340,6 +340,60 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
 
+def sustituye_producto(producto_id, cantidad, detalles, folio):
+    pass
+
+def configuracion_cheque(folio, precio, cantidad):
+    #Obtener el cheque con el folio
+    cheque = Cheques.objects.get(folio=folio)
+
+    #Actualizar la informacion del cheque
+
+    cheque.cambio = 0
+    cheque.descuento = 0
+    cheque.usuariodescuento = ""
+    # Obtener la suma de la cantidad de todos los detalles
+    cheque.totalarticulos = sum([detalle.cantidad for detalle in Cheqdet.objects.filter(foliodet=folio)])
+    # Obtener la suma de todos los precios de los detalles
+    cheque.subtotal = (sum([detalle.precio for detalle in
+                                   Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16)
+    cheque.total = sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])
+    cheque.totalconpropina = cheque.total + cheque.propina
+    cheque.totalimpuesto1 = (sum([detalle.precio for detalle in
+                                         Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16) * Decimal(0.16)
+    cheque.cargo = 0
+    cheque.totalconcargo = cheque.total + cheque.cargo
+    cheque.totalconpropinacargo = cheque.total + cheque.propina + cheque.cargo
+    cheque.descuentoimporte = 0
+    cheque.efectivo = cheque.total
+    cheque.tarjeta = 0
+    cheque.vales = 0
+    cheque.otros = 0
+
+    cheque.totalsindescuento = cheque.total
+    cheque.totalbebidas = cheque.totalbebidas + (precio * cantidad)
+    cheque.totaldescuentos = 0
+    cheque.totaldescuentoalimentos = 0
+    cheque.totaldescuentobebidas = 0
+    cheque.totaldescuentootros = 0
+
+    cheque.totalcortesias = 0
+    cheque.totalcortesiaalimentos = 0
+    cheque.totalcortesiabebidas = 0
+    cheque.totalcortesiaotros = 0
+    cheque.totaldescuentoycortesia = 0
+
+    cheque.totalbebidassindescuentos = cheque.totalbebidas
+    cheque.descuentocriterio = 0
+    cheque.descuentomonedero = 0
+    cheque.subtotalcondescuento = cheque.subtotal
+
+    try:
+        cheque.save()
+        return f"La información del cheque {folio} se actualizó correctamente."
+    except Exception as e:
+        return f"Ocurrió un error al actualizar la información del cheque: {e}"
+
 def sustituye_inversa(produto_id, cantidad, detalles, folio):
     try:
         producto = Productos.objects.get(idproducto=produto_id)
@@ -347,6 +401,7 @@ def sustituye_inversa(produto_id, cantidad, detalles, folio):
     except Productos.DoesNotExist:
         print(f"El producto con id '{produto_id}' no existe.")
         return False
+
     for detalle in detalles:
         detalle.cantida = cantidad
         detalle.idproducto = Productos.objects.get(idproducto=produto_id)
@@ -366,61 +421,15 @@ def sustituye_inversa(produto_id, cantidad, detalles, folio):
         detalle.idcortesia = 0
         try:
             detalle.save()
+            # Ahora se debe ajiustar la información del cheque
+            try:
+                configuracion_cheque(folio, p_d.precio, cantidad)
+            except Exception as e:
+                return f"Error al guardar la configuración del cheque: {e} del folio {folio}"
         except models.Model.DoesNotExist as e:
-            print(f"Error al guardar el detalle: {e} del folio {detalle.foliodet}")
-            return False
-    # Obtener el cheque
+            return f"Error al guardar el detalle: {e} del folio {detalle.foliodet}"
 
-    try:
-        cheque_changes = Cheques.objects.get(folio=folio)
-        for cheque_change in cheque_changes:
-            # Alteraciones en el cheque
-            cheque_change.cambio = 0
-            cheque_change.descuento = 0
-            cheque_change.usuariodescuento = ""
-            # Obtener la suma de la cantidad de todos los detalles
-            cheque_change.totalarticulos = sum([detalle.cantidad for detalle in Cheqdet.objects.filter(foliodet=folio)])
-            # Obtener la suma de todos los precios de los detalles
-            cheque_change.subtotal = (sum([detalle.precio for detalle in
-                                           Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16)
-            cheque_change.total = sum([detalle.precio for detalle in Cheqdet.objects.filter(foliodet=folio)])
-            cheque_change.totalconpropina = cheque_change.total + cheque_change.propina
-            cheque_change.totalimpuesto1 = (sum([detalle.precio for detalle in
-                                                 Cheqdet.objects.filter(foliodet=folio)])) / Decimal(1.16) * Decimal(0.16)
-            cheque_change.cargo = 0
-            cheque_change.totalconcargo = cheque_change.total + cheque_change.cargo
-            cheque_change.totalconpropinacargo = cheque_change.total + cheque_change.propina + cheque_change.cargo
-            cheque_change.descuentoimporte = 0
-            cheque_change.efectivo = cheque_change.total
-            cheque_change.tarjeta = 0
-            cheque_change.vales = 0
-            cheque_change.otros = 0
-
-            cheque_change.totalsindescuento = cheque_change.total
-            cheque_change.totalbebidas = cheque_change.totalbebidas + (p_d.precio * cantidad)
-            cheque_change.totaldescuentos = 0
-            cheque_change.totaldescuentoalimentos = 0
-            cheque_change.totaldescuentobebidas = 0
-            cheque_change.totaldescuentootros = 0
-
-            cheque_change.totalcortesias = 0
-            cheque_change.totalcortesiaalimentos = 0
-            cheque_change.totalcortesiabebidas = 0
-            cheque_change.totalcortesiaotros = 0
-            cheque_change.totaldescuentoycortesia = 0
-
-            cheque_change.totalbebidassindescuentos = cheque_change.totalbebidas
-            cheque_change.descuentocriterio = 0
-            cheque_change.descuentomonedero = 0
-            cheque_change.subtotalcondescuento = cheque_change.subtotal
-
-            cheque_change.save()
-            print(f"Cheque {folio} actualizado correctamente.")
-            return True
-    except Exception as e:
-        print(f"Error al guardar el cheque: {e}")
-        return False
-
+    return f'El producto {producto.descripcion} se sustituyó correctamente en el folio {folio}'
 
 def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
     for cheque in queryset:  # Recorrer cheqdet
