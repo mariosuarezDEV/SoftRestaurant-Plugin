@@ -7959,8 +7959,8 @@ class cheques_proxy(Cheques): #los proxys son para usuarios no administradores
         verbose_name = 'Cheque Proxy'
         verbose_name_plural = 'Proxy de cheques'
 
-class chequedet_proxy(Cheques): #los proxys son para usuarios no administradores
+class chequedet_proxy(Cheqdet): #los proxys son para usuarios no administradores
     class Meta:
         proxy = True
-        verbose_name = 'Cheque Proxy'
-        verbose_name_plural = 'Proxy de cheques'
+        verbose_name = 'Detalles Proxy'
+        verbose_name_plural = 'Proxy de Detalles'
