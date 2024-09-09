@@ -14,16 +14,6 @@ services:
     networks:
         red_interna:
             ipv4_address: 192.168.2.2 #Direccion de DNS
-  hqms_web:
-    container_name: hqms_web
-    image: hqms:beta
-    ports:
-      - "80:80"
-    networks:
-        red_interna:
-            ipv4_address: 192.168.2.3 # Sucursal centro
-    depends_on:
-        - hqms_dns
 volumes:
     disk_soluRH_dns:
     disk_soluRH_dns_cache:

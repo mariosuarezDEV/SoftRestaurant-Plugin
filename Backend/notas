@@ -1,20 +1,31 @@
-Crear un formulario para la vista de los usuario no administradores.
+Crear un formulario para la vista de los usuario no administradores. [Listo] 
 
-Crear un modelo proxy para que sea mostrado en el formulario
+Crear un modelo proxy para que sea mostrado en el formulario [Listo]
 
 Instalacion de proxmox para el despligue de el servicio en un maquina windows
 
-Agregar un metodo de busqueda para productos y detalles de los productos
+Agregar un metodo de busqueda para productos y detalles de los productos [Listo]
 
 
-Clave - Descripcion corta - Precio sin iva - Precio con IVA - Impuesto 1
+Clave - Descripcion corta - Precio sin iva - Precio con IVA - Impuesto 1 [Listo]
 
 
-La busqueda del producto debe ser por clave y descripcion.
+La busqueda del producto debe ser por clave y descripcion. [Listo]
 
 
 para el uso de proxy (que son las nuevas vistas para usuarios no administradores) se deben filtrar en los grupos. De esta forma no se ensucia el admin
 
 
-Se perdieron las ultimas actualizaciones
+El rendimiento de la es muy **inestable**
 
+
+En el cambio de arquitectura debemos optimizar el rendimiento general del sistema.
+
+
+Se debe de aplicar un nuevo modelo en red para arquitecturas y topologias en dispositivos IoT.
+
+Cambiar la plataforma en procesadores arm, esto hara que procesadores x86 (amd64 o 32bits) corran el sistema de mejor manera.
+
+El desarrollo en sistemas embebidos mejorará el perfomance del dispositivo al ejecutar un navegador.
+
+Crear funciones asincronas y que hagan peticiones bases de datos distribuidas para balancerar cargas con un load de azure/aws e integrar un modulo autoindpendiente y de autoaprendizaje que aprenda las mejores rutas para obtener la informacion consultada y esto lo almacene en hilos para realizar mayor numero de peticiones http simultaneamente sin perder el rendimento [obtener un 5.2 de brenchmark] (diseñar una nueva arquitectura de conexion API REST para flor catocer)
