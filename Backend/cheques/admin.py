@@ -82,7 +82,6 @@ def sustituir_producto_uno(modeladmin, request, queryset):
             cheqdet.comentario = ""
             cheqdet.usuariodescuento = ""
             cheqdet.comentariodescuento = ""
-            cheqdet.comentario = ""
             cheqdet.idtipodescuento = ""
             cheqdet.preciocatalogo = productos.precio
 
@@ -350,9 +349,21 @@ def mantenimiento_cheque(producto_id, cantidad, folio):
     # Ahora modificar el primer detalle
     try:
         # Aquí se cambia la información del detalle
+        detalles[0].idproducto = Productos.objects.get(idproducto=producto_id).idproducto
+        detalles[0].descuento = 0
+        detalles[0].precio = Productosdetalle.objects.get(idproducto=producto_id).precio
+        detalles[0].impuesto1 = Productosdetalle.objects.get(idproducto=producto_id).impuesto1
+        detalles[0].preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos
+        detalles[0].modificador = False
+        detalles[0].comentario = ""
+        detalles[0].usuariodescuento = ""
+        detalles[0].comentariodescuento = ""
+        detalles[0].idtipodescuento = ""
+        detalles[0].preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
+        detalles[0].save()
         pass
     except Exception as e:
-        return f"Error al modificar el primer detalle: {e}"
+        return f"Error al modificar el detalle: {e}"
 
 def configuracion_cheque(folio, precio, cantidad):
     #Obtener el cheque con el folio
