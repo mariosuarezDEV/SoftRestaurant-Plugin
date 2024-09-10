@@ -46,7 +46,7 @@ def sustituir_producto_uno(modeladmin, request, queryset):
         objeto.totaldescuentootros = 0
         objeto.totalalimentossindescuentos = 0
         objeto.totalbebidassindescuentos = 0
-        objeto.totalotrosindescuentos = productos.precio
+        objeto.totalotrossindescuentos = objeto.total
         objeto.subtotalcondescuento = productos.precio
         try:
             objeto.save()
@@ -130,7 +130,7 @@ def sustituir_producto_dos(modeladmin, request, queryset):
         objeto.totaldescuentootros = 0
         objeto.totalalimentossindescuentos = 0
         objeto.totalbebidassindescuentos = 0
-        objeto.totalotrosindescuentos = productos.precio
+        objeto.totalotrossindescuentos = objeto.total
         objeto.subtotalcondescuento = productos.precio
         try:
             objeto.save()
@@ -222,7 +222,7 @@ def sustituir_producto_tres(modeladmin, request, queryset):
         objeto.descuentocriterios = 0
         objeto.subtotalcondescuento = productos.precio
 
-        objeto.totalotrosindescuentos = objeto.total
+        objeto.totalotrossindescuentos = objeto.total
         objeto.desc_imp_original = 0
         objeto.save()
 
