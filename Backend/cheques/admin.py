@@ -47,7 +47,11 @@ def sustituir_producto_uno(modeladmin, request, queryset):
         objeto.totalalimentossindescuentos = 0
         objeto.totalbebidasindescuentos = 0
         objeto.totalotrosindescuentos = productos.precio
-        objeto.save()
+        try:
+            objeto.save()
+        except Exception as e:
+            modeladmin.message_user(request, f"Ocurrió un error al guardar el cheque: {e}")
+            return
 
         # Ahora actualiza los registros en Cheqdet
         for objeto in queryset:
@@ -84,7 +88,11 @@ def sustituir_producto_uno(modeladmin, request, queryset):
             cheqdet.idtipodescuento = ""
             cheqdet.preciocatalogo = productos.precio
 
-            cheqdet.save()
+            try:
+                cheqdet.save()
+            except Exception as e:
+                modeladmin.message_user(request, f"Ocurrió un error al guardar el detalle: {e}")
+                return
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
 
