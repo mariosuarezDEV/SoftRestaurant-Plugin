@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'master',
         'USER': 'sa',
         'PASSWORD': 'National09',
-        'HOST': '192.168.195.61',
+        'HOST': 'localhost',
         'PORT': '1433',
         'OPTIONS': {
             'driver': 'ODBC Driver 18 for SQL Server',

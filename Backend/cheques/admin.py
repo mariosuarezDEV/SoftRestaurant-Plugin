@@ -341,6 +341,18 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
             cheqdet.save()
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
+def mantenimiento_cheque(producto_id, cantidad, folio):
+    #Obtener los detalles del cheque
+    detalles = Cheqdet.objects.filter(foliodet=folio)
+    # Eliminar todos los movimientos de los detalles menos el primero
+    for detalle in detalles[1:]:
+        detalle.delete()
+    # Ahora modificar el primer detalle
+    try:
+        # Aquí se cambia la información del detalle
+        pass
+    except Exception as e:
+        return f"Error al modificar el primer detalle: {e}"
 
 def configuracion_cheque(folio, precio, cantidad):
     #Obtener el cheque con el folio
@@ -440,6 +452,11 @@ def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
         else:
             modeladmin.message_user(request, restconf)
 
+def sustituye_por_cafe_en_grano(modeladmin, request, queryset):
+    #Recibe los cheques a los que se les va a cambiar el producto
+    for cheque in queryset:  # Recorrer los cheques
+        # Aplicar el menteimiento al cheque
+        mmnt = mantenimiento_cheque("034003", 1, cheque.folio)
 
 sustituir_producto_uno.short_description = "Sustituir por Café en grano 1/4"
 sustituir_producto_dos.short_description = "Sustituir por Pan para llevar"
