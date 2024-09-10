@@ -16,4 +16,5 @@ router.register("productos", ProductosViewSet) # Registrar el modelo productos
 
 urlpatterns = [
     path('api/', include(router.urls), name="ChequesAPI"), # Acceso a la API
+    path('actualizar_tabla/', views.actualizar_tabla, name="ActualizarTabla"), # Actualizar la tabla de la base de datos
 ]
