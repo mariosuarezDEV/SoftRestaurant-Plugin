@@ -11,7 +11,8 @@ from .forms import ChequesForm, ChequesdetForm
 from rest_framework.authtoken.views import obtain_auth_token
 
 #Configuracion de desarrollador
-from configuracion.configuracion_desarrollador import dev_sttings as dev_conf
+from configuracion import configuracion_desarrollador
+
 # Modelos de la app de cheques
 from .models import Cheques, Cheqdet, Productos, Productosdetalle, cheques_proxy, chequedet_proxy
 
@@ -509,7 +510,7 @@ def test_producto_uno(modeladmin, request, queryset):
     # Obtener los cheques a los que se les hará el mantenimiento
     for cheques in queryset:
         # Por cada cheque se hace el mantenimiento
-        if mantenimiento_detalles(dev_conf.primer_producto, 1, cheques.folio):
+        if mantenimiento_detalles(configuracion_desarrollador.dev_sttings.primer_producto.primer_producto, 1, cheques.folio):
             modeladmin.message_user(request, "El mantenimiento se hizo correctamente.")
         else:
             modeladmin.message_user(request, "Ocurrió un error al hacer el mantenimiento.")
