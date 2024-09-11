@@ -499,7 +499,7 @@ def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
 
         try:
             # Obtener detalles del producto una sola vez
-            producto_detalle = Productosdetalle.objects.get(idproducto=producto_id)
+            producto_detalle = Productosdetalle.objects.get(idproducto__exact=producto_id)
         except Productosdetalle.DoesNotExist:
             return f"Error: Detalle del producto con id {producto_id} no encontrado."
         except Exception as e:
