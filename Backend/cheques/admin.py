@@ -496,7 +496,6 @@ def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
             return f"Error: Producto con id {producto_id} no encontrado."
         except Exception as e:
             return f"Error al obtener el producto: {e}"
-
         try:
             # Obtener detalles del producto una sola vez
             producto_detalle = Productosdetalle.objects.get(idproducto__exact=producto_id)
@@ -504,7 +503,6 @@ def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
             return f"Error: Detalle del producto con id {producto_id} no encontrado."
         except Exception as e:
             return f"Error al obtener el detalle del producto: {e}"
-
         # Realizar el update
         num_rows_updated = Cheqdet.objects.filter(foliodet=folio, movimiento=1).update(
             cantidad=cantidad,
@@ -522,8 +520,16 @@ def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
         )
         if num_rows_updated == 0:
             return f"No se actualizó ningún registro para el folio {folio}."
-        return f"Actualización realizada correctamente para {num_rows_updated} registro(s)."
 
+        #  Accion para los detalles restante
+        if es_inverso:
+            try:
+                Cheqdet.objects.filter(foliodet=folio).filter(~Q(movimiento=1)).delete()
+            except Exception as e:
+                return f"Error al eliminar los detalles restantes: {e}"
+        else:
+            pass
+            # Los detalles restantes se mantienen
     except Exception as e:
         return f"Error al actualizar: {e}"
 
