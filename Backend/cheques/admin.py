@@ -492,28 +492,43 @@ def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
         # Obtener la instancia del producto
         try:
             producto = Productos.objects.get(idproducto=producto_id)
+        except Productos.DoesNotExist:
+            return f"Error: Producto con id {producto_id} no encontrado."
         except Exception as e:
             return f"Error al obtener el producto: {e}"
 
-        Cheqdet.objects.filter(foliodet=folio, movimiento=1).update(
+        try:
+            # Obtener detalles del producto una sola vez
+            producto_detalle = Productosdetalle.objects.get(idproducto=producto_id)
+        except Productosdetalle.DoesNotExist:
+            return f"Error: Detalle del producto con id {producto_id} no encontrado."
+        except Exception as e:
+            return f"Error al obtener el detalle del producto: {e}"
+
+        # Realizar el update
+        num_rows_updated = Cheqdet.objects.filter(foliodet=folio, movimiento=1).update(
             idproducto=producto.idproducto,
             descuento=0,
-            precio=Productosdetalle.objects.get(idproducto=producto_id).precio,
+            precio=producto_detalle.precio,
             impuesto1=0,
-            preciosinimpuestos=Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos,
+            preciosinimpuestos=producto_detalle.preciosinimpuestos,
             modificdor=False
         )
+
+        if num_rows_updated == 0:
+            return f"No se actualizó ningún registro para el folio {folio}."
+        return f"Actualización realizada correctamente para {num_rows_updated} registro(s)."
+
     except Exception as e:
         return f"Error al actualizar: {e}"
 
 def test_producto_uno(modeladmin, request, queryset):
     # Obtener los cheques a los que se les hará el mantenimiento
     for cheques in queryset:
-        # Emplezar por los detalles
         try:
-            print(dev_conf.producto_uno)
-            mantenimiento_detalles(dev_conf.get_producto_uno, 1, cheques.folio, False)
-            modeladmin.message_user(request, f"El mantenimiento del cheque {cheques.folio} se hizo correctamente.")
+            print(dev_conf.get_producto_uno)
+            resultado_mantenimiento = mantenimiento_detalles(dev_conf.get_producto_uno, 1, cheques.folio, False)
+            modeladmin.message_user(request, resultado_mantenimiento)
         except Exception as e:
             modeladmin.message_user(request, f"Error al modificar los detalles: {e}")
 
