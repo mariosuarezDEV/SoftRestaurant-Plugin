@@ -512,7 +512,7 @@ def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
             precio=producto_detalle.precio,
             impuesto1=0,
             preciosinimpuestos=producto_detalle.preciosinimpuestos,
-            modificdor=False
+            modificador=False
         )
 
         if num_rows_updated == 0:
