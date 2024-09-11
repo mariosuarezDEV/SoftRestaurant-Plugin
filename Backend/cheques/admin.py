@@ -481,10 +481,10 @@ sustituye_por_Botella_don_julio.short_description = "Sustituir por Botella Tequi
 
 
 def mantenimiento_detalles(producto_id, cantidad, folio):
-    # No me esta haciendo los cambios
     # Obtener los detalles del cheque
     detalles = Cheqdet.objects.filter(foliodet=folio).values()
-    print(detalles)
+    for detalle in detalles:
+        print(f"Detalle: {detalle} \n")
 
 
 def mantenimiento_cheque(producto_id, cantidad, folio):
