@@ -485,7 +485,8 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
     detalles = Cheqdet.objects.filter(foliodet=folio)
     for detalle in detalles:
         if detalle.movimiento == Decimal(1):
-            print(f"El movimiento es {detalle.movimiento} (el que queremos) \n")
+            detalle.idproducto = Productos.objects.get(idproducto=producto_id)
+            detalle.save()
         else:
             print(f"El movimiento es {detalle.movimiento} \n")
 
