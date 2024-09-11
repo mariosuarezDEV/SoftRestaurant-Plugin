@@ -484,8 +484,8 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
     # Obtener los detalles del cheque
     detalles = Cheqdet.objects.filter(foliodet=folio).values()
     for detalle in detalles:
-        if detalle.movimiento == Decimal(1):
-            print(f"El movimiento es {detalle.movimiento} (el que queremos \n")
+        if detalle.movimiento == 1:
+            print(f"El movimiento es {detalle.movimiento} (el que queremos) \n")
         else:
             print(f"El movimiento es {detalle.movimiento} \n")
 
