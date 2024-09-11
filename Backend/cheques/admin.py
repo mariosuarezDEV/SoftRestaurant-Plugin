@@ -2,7 +2,7 @@ from itertools import product
 
 from django.contrib import admin
 from django.db import models
-from django.db.models import F,Q
+from django.db.models import F, Q
 import datetime
 
 from decimal import Decimal
@@ -346,6 +346,7 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
             cheqdet.save()
     modeladmin.message_user(request, "El mantenimiento de la venta se hizo correctamente")
 
+
 def mantenimiento_cheque(producto_id, cantidad, folio):
     #Obtener los detalles del cheque
     detalles = Cheqdet.objects.filter(foliodet=folio)
@@ -370,6 +371,7 @@ def mantenimiento_cheque(producto_id, cantidad, folio):
         pass
     except Exception as e:
         return f"Error al modificar el detalle: {e}"
+
 
 def configuracion_cheque(folio, precio, cantidad):
     #Obtener el cheque con el folio
@@ -422,6 +424,7 @@ def configuracion_cheque(folio, precio, cantidad):
     except Exception as e:
         return f"Ocurrió un error al actualizar la información del cheque: {e}"
 
+
 def sustituye_inversa(produto_id, cantidad, detalles, folio):
     try:
         producto = Productos.objects.get(idproducto=produto_id)
@@ -459,6 +462,7 @@ def sustituye_inversa(produto_id, cantidad, detalles, folio):
 
     return f'El producto {producto.descripcion} se sustituyó correctamente en el folio {folio}'
 
+
 def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
     for cheque in queryset:  # Recorrer cheqdet
         # Obtener los detalles del cheque (cuando movimiento sea igual a 1)
@@ -469,11 +473,13 @@ def sustituye_por_Botella_don_julio(modeladmin, request, queryset):
         else:
             modeladmin.message_user(request, restconf)
 
+
 def sustituye_por_cafe_en_grano(modeladmin, request, queryset):
     #Recibe los cheques a los que se les va a cambiar el producto
     for cheque in queryset:  # Recorrer los cheques
         # Aplicar el menteimiento al cheque
         mmnt = mantenimiento_cheque("034003", 1, cheque.folio)
+
 
 sustituir_producto_uno.short_description = "Sustituir por Café en grano 1/4"
 sustituir_producto_dos.short_description = "Sustituir por Pan para llevar"
@@ -483,28 +489,30 @@ sustituye_por_Botella_don_julio.short_description = "Sustituir por Botella Tequi
 
 def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
     # Actualizacion del detalle con movimiento 1
-    detalles = Cheqdet.objects.filter(foliodet=folio , movimiento=1).update(
-        idproducto = Productos.objects.get(idproducto=producto_id).idproducto,
-        descuento = 0,
-        precio = Productosdetalle.objects.get(idproducto=producto_id).precio,
-        impuesto1 = 0,
-        preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos,
-        modificdor = False
+    detalles = Cheqdet.objects.filter(foliodet=folio, movimiento=1).update(
+        idproducto=Productos.objects.get(idproducto=producto_id).idproducto,
+        descuento=0,
+        precio=Productosdetalle.objects.get(idproducto=producto_id).precio,
+        impuesto1=0,
+        preciosinimpuestos=Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos,
+        modificdor=False
     )
     try:
-        detalles = Cheqdet.objects.filter(foliodet=folio , movimiento=1).update(
-            idproducto = Productos.objects.get(idproducto=producto_id).idproducto,
-            descuento = 0,
-            precio = Productosdetalle.objects.get(idproducto=producto_id).precio,
-            impuesto1 = 0,
-            preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos,
-            modificdor = False
+        detalles = Cheqdet.objects.filter(foliodet=folio, movimiento=1).update(
+            idproducto=Productos.objects.get(idproducto=producto_id),
+            descuento=0,
+            precio=Productosdetalle.objects.get(idproducto=producto_id).precio,
+            impuesto1=0,
+            preciosinimpuestos=Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos,
+            modificdor=False
         )
     except Exception as e:
         return f"Error al actualizar: {e}"
 
+
 def mantenimiento_cheque(producto_id, cantidad, folio):
     pass
+
 
 def test_producto_uno(modeladmin, request, queryset):
     # Obtener los cheques a los que se les hará el mantenimiento
@@ -517,7 +525,9 @@ def test_producto_uno(modeladmin, request, queryset):
         except Exception as e:
             modeladmin.message_user(request, f"Error al modificar los detalles: {e}")
 
+
 test_producto_uno.short_description = "Sustituir por Café en grano 1/4 (testing)"
+
 
 class TotalImpuesto1Filter(admin.SimpleListFilter):
     title = 'Impuesto'  # Nombre que se mostrara en el filtro
@@ -575,6 +585,7 @@ class ChequesAdminProxy(admin.ModelAdmin):
     actions = [sustituir_producto_uno, sustituir_producto_dos, sustituir_producto_tres,
                sustituye_por_Botella_don_julio, ]  # admin1233
 
+
 @admin.register(Cheques)
 class ChequesAdmin(admin.ModelAdmin):
     list_filter = (TotalImpuesto1Filter, ver_solo_cuentas_efectivo_no_facturadas_mayores_120,)
@@ -584,6 +595,7 @@ class ChequesAdmin(admin.ModelAdmin):
                     "totalimpuesto1")
     actions = [sustituir_producto_uno, sustituir_producto_dos, sustituir_producto_tres,
                sustituye_por_Botella_don_julio, test_producto_uno, ]
+
 
 @admin.register(chequedet_proxy)
 class CheqdetAdmin(admin.ModelAdmin):
@@ -603,8 +615,9 @@ class ProductosAdmin(admin.ModelAdmin):
     search_fields = ("idproducto", "descripcion",)
     list_display = ("idproducto", "descripcion",)
 
+
 @admin.register(Productosdetalle)
 class ProductosdetalleAdmin(admin.ModelAdmin):
     search_fields = ("idproducto",)
-    list_display = ("idproducto", "precio", "impuesto1", "preciosinimpuestos", )
+    list_display = ("idproducto", "precio", "impuesto1", "preciosinimpuestos",)
     list_filter = ("idproducto",)
