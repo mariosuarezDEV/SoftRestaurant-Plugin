@@ -507,14 +507,19 @@ def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
 
         # Realizar el update
         num_rows_updated = Cheqdet.objects.filter(foliodet=folio, movimiento=1).update(
+            cantidad=cantidad,
             idproducto=producto.idproducto,
             descuento=0,
             precio=producto_detalle.precio,
             impuesto1=0,
             preciosinimpuestos=producto_detalle.preciosinimpuestos,
-            modificador=False
+            modificador=False,
+            comentario="",
+            usuariodescuento="",
+            comentariodescuento="",
+            idtipodescuento="",
+            preciocatalogo=producto_detalle.precio
         )
-
         if num_rows_updated == 0:
             return f"No se actualizó ningún registro para el folio {folio}."
         return f"Actualización realizada correctamente para {num_rows_updated} registro(s)."
