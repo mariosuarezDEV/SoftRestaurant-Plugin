@@ -486,11 +486,17 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
     for detalle in detalles:
         print(f"Movimiento #{detalle.movimiento} del cheque {detalle.foliodet}")
         if detalle.movimiento == 1:
-            print(f"Entramos al registro que se debe modificar")
-            detalle.idproducto = producto_id
-            print(f"Se intento cambiar el producto")
-            detalle.asave()
-            print(f"se intento guardar el cambio")
+            try:
+                print(f"Entramos al registro que se debe modificar")
+                detalle.idproducto = Productos.objects.get(idproducto=producto_id)
+                print(f"Se intento cambiar el producto")
+                try:
+                    detalle.asave()
+                    print(f"se intento guardar el cambio")
+                except Exception as e:
+                    return f"No se pueden guardar los cambios porque: {e}"
+            except Exception as e:
+                return f"No se pueden modificar los detalles porque: {e}"
         else:
             try:
                 print(f"Entramos a eliminar el movimiento {detalle.movimiento} del cheque {detalle.foliodet}")
@@ -507,6 +513,7 @@ def test_producto_uno(modeladmin, request, queryset):
     for cheques in queryset:
         # Emplezar por los detalles
         try:
+            print(dev_conf.producto_uno)
             mantenimiento_detalles(dev_conf.get_producto_uno, 1, cheques.folio)
             modeladmin.message_user(request, f"El mantenimiento del cheque {cheques.folio} se hizo correctamente.")
         except Exception as e:
