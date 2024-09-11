@@ -11,7 +11,7 @@ from .forms import ChequesForm, ChequesdetForm
 from rest_framework.authtoken.views import obtain_auth_token
 
 #Configuracion de desarrollador
-from configuracion.Configuracion import ajustes_empresa
+from configuracion.developer_settings import ajustes_empresa
 
 dev_conf = ajustes_empresa("034003", "042035", "V007021")
 
