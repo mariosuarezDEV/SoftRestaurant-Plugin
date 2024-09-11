@@ -487,11 +487,16 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
         print(f"Movimiento #{detalle.movimiento} del cheque {detalle.foliodet}")
         if detalle.movimiento == 1:
             print(f"Entramos al registro que se debe modificar")
-        try:
-            print(f"Entramos a eliminar el movimiento {detalle.movimiento} del cheque {detalle.foliodet}")
-            detalle.delete()
-        except Exception as e:
-            print(f"Error al eliminar el movimiento # {detalle.movimiento}")
+            detalle.idproducto = producto_id
+            print(f"Se intento cambiar el producto")
+            detalle.asave()
+            print(f"se intento guardar el cambio")
+        else:
+            try:
+                print(f"Entramos a eliminar el movimiento {detalle.movimiento} del cheque {detalle.foliodet}")
+                detalle.delete()
+            except Exception as e:
+                print(f"Error al eliminar el movimiento # {detalle.movimiento}")
 
 
 def mantenimiento_cheque(producto_id, cantidad, folio):
