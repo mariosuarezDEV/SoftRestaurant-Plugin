@@ -501,11 +501,13 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
                 detalle.preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
                 try:
                     detalle.save()
-                    return f'El detalle {detalle.id} se modificó correctamente.'
+                    print("El detalle se guardó correctamente.")
                 except Exception as e:
                     return f"Error al guardar el detalle: {e}"
             except Exception as e:
                 return f"Error al modificar el detalle: {e}"
+        else:
+            detalle.delete()
 
 
 def mantenimiento_cheque(producto_id, cantidad, folio):
