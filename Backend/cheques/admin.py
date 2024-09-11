@@ -481,28 +481,10 @@ sustituye_por_Botella_don_julio.short_description = "Sustituir por Botella Tequi
 
 
 def mantenimiento_detalles(producto_id, cantidad, folio):
-    # Obtener los detalles del folio que recibe la funcion
-    detalles = Cheqdet.objects.get(foliodet=folio)
-    for detalle in detalles:
-        print(f"Movimiento #{detalle.movimiento} del cheque {detalle.foliodet}")
-        if detalle.movimiento == 1:
-            try:
-                print(f"Entramos al registro que se debe modificar")
-                detalle.idproducto = Productos.objects.get(idproducto=producto_id)
-                print(f"Se intento cambiar el producto")
-                try:
-                    detalle.save()
-                    print(f"se intento guardar el cambio")
-                except Exception as e:
-                    return f"No se pueden guardar los cambios porque: {e}"
-            except Exception as e:
-                return f"No se pueden modificar los detalles porque: {e}"
-        else:
-            try:
-                print(f"Entramos a eliminar el movimiento {detalle.movimiento} del cheque {detalle.foliodet}")
-                detalle.delete()
-            except Exception as e:
-                print(f"Error al eliminar el movimiento # {detalle.movimiento}")
+    # No me esta haciendo los cambios
+    # Obtener los detalles del cheque
+    detalles = Cheqdet.objects.filter(foliodet=folio).values()
+    print(detalles)
 
 
 def mantenimiento_cheque(producto_id, cantidad, folio):
