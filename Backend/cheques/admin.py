@@ -482,23 +482,13 @@ sustituye_por_Botella_don_julio.short_description = "Sustituir por Botella Tequi
 
 def mantenimiento_detalles(producto_id, cantidad, folio):
     # Obtener los detalles del cheque
-    detalles = Cheqdet.objects.filter(foliodet=folio)
+    detalles = Cheqdet.objects.get(foliodet=folio)
     for detalle in detalles:
         if detalle.movimiento == 1:
             print(f"Encontramos el detalle {detalle.id}")
             try:
-                # Cambiar la información del detalle
-                detalle.idproducto = Productos.objects.get(idproducto=producto_id)
-                detalle.descuento = 0
-                detalle.precio = Productosdetalle.objects.get(idproducto=producto_id).precio
-                detalle.impuesto1 = Productosdetalle.objects.get(idproducto=producto_id).impuesto1
-                detalle.preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos
-                detalle.modificador = False
-                detalle.comentario = ""
-                detalle.usuariodescuento = ""
-                detalle.comentariodescuento = ""
-                detalle.idtipodescuento = ""
-                detalle.preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
+                producto = Productos.objects.get(idproducto=producto_id)
+                detalle.idproducto = producto
                 try:
                     detalle.save()
                     print("El detalle se guardó correctamente.")
