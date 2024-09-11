@@ -488,19 +488,25 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
         detalle.delete()
     # Ahora modificar el primer detalle
     try:
-        # Aquí se cambia la información del detalle
-        detalles.idproducto = Productos.objects.get(idproducto=producto_id).idproducto
-        detalles.descuento = 0
-        detalles.precio = Productosdetalle.objects.get(idproducto=producto_id).precio
-        detalles.impuesto1 = Productosdetalle.objects.get(idproducto=producto_id).impuesto1
-        detalles.preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos
-        detalles.modificador = False
-        detalles.comentario = ""
-        detalles.usuariodescuento = ""
-        detalles.comentariodescuento = ""
-        detalles.idtipodescuento = ""
-        detalles.preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
-        detalles.update()
+        # Modificar la información del detalle
+        det = Cheqdet.objects.get(foliodet=folio)
+        print(det)
+        det.idproducto = Productos.objects.get(idproducto=producto_id).idproducto
+        print(f'Producto: {det.idproducto}')
+        det.descuento = 0
+        print(f'Descuento: {det.descuento}')
+        det.precio = Productosdetalle.objects.get(idproducto=producto_id).precio
+        print(f'Precio: {det.precio}')
+        det.impuesto1 = Productosdetalle.objects.get(idproducto=producto_id).impuesto1
+        print(f'Impuesto 1: {det.impuesto1}')
+        det.preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos
+        det.modificador = False
+        det.comentario = ""
+        det.usuariodescuento = ""
+        det.comentariodescuento = ""
+        det.idtipodescuento = ""
+        det.preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
+        det.save()
     except Exception as e:
         return f"Error al modificar el detalle: {e}"
 
