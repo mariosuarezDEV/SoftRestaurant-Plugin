@@ -526,7 +526,7 @@ def test_producto_uno(modeladmin, request, queryset):
     # Obtener los cheques a los que se les hará el mantenimiento
     for cheques in queryset:
         try:
-            print(dev_conf.get_producto_uno)
+            print(dev_conf.get_producto_uno())
             resultado_mantenimiento = mantenimiento_detalles(dev_conf.get_producto_uno(), 1, cheques.folio, False)
             modeladmin.message_user(request, resultado_mantenimiento)
         except Exception as e:
