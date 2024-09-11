@@ -487,10 +487,13 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
         if detalle.movimiento == Decimal(1):
             try:
                 detalle.idproducto = Productos.objects.get(idproducto=producto_id).idproducto
+                print("Producto obtenido")
+
             except Exception as e:
                 return f"Error al obtener el producto: {e}"
             try:
                 detalle.save()
+                print("Detalle guardado")
             except Exception as e:
                 return f"Error al guardar el detalle: {e}"
         else:
