@@ -489,18 +489,18 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
     # Ahora modificar el primer detalle
     try:
         # Aquí se cambia la información del detalle
-        detalles[0].idproducto = Productos.objects.get(idproducto=producto_id).idproducto
-        detalles[0].descuento = 0
-        detalles[0].precio = Productosdetalle.objects.get(idproducto=producto_id).precio
-        detalles[0].impuesto1 = Productosdetalle.objects.get(idproducto=producto_id).impuesto1
-        detalles[0].preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos
-        detalles[0].modificador = False
-        detalles[0].comentario = ""
-        detalles[0].usuariodescuento = ""
-        detalles[0].comentariodescuento = ""
-        detalles[0].idtipodescuento = ""
-        detalles[0].preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
-        detalles[0].save()
+        detalles.idproducto = Productos.objects.get(idproducto=producto_id).idproducto
+        detalles.descuento = 0
+        detalles.precio = Productosdetalle.objects.get(idproducto=producto_id).precio
+        detalles.impuesto1 = Productosdetalle.objects.get(idproducto=producto_id).impuesto1
+        detalles.preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos
+        detalles.modificador = False
+        detalles.comentario = ""
+        detalles.usuariodescuento = ""
+        detalles.comentariodescuento = ""
+        detalles.idtipodescuento = ""
+        detalles.preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
+        detalles.update()
     except Exception as e:
         return f"Error al modificar el detalle: {e}"
 
