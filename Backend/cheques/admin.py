@@ -2,6 +2,7 @@ from itertools import product
 
 from django.contrib import admin
 from django.db import models
+from django.db.models import F,Q
 import datetime
 
 from decimal import Decimal
@@ -480,23 +481,27 @@ sustituir_producto_tres.short_description = "Sustituir por Cargas de café"
 sustituye_por_Botella_don_julio.short_description = "Sustituir por Botella Tequilia Don Julio 70 Aniversario"
 
 
-def mantenimiento_detalles(producto_id, cantidad, folio):
-    details = Cheqdet.objects.get(foliodet=folio)
-    for detail in details:
-        detail.cantidad = cantidad
-        detail.idproducto = Productos.objects.get(idproducto=producto_id)
-        detail.descuento = 0
-        detail.precio = Productosdetalle.objects.get(idproducto=producto_id).precio
-        detail.impuesto1 = Productosdetalle.objects.get(idproducto=producto_id).impuesto1
-        detail.preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos
-        detail.modificador = False
-        detail.comentario = ""
-        detail.usuariodescuento = ""
-        detail.comentariodescuento = ""
-        detail.idtipodescuento = ""
-        detail.preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
-        detail.save()
-
+def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
+    # Actualizacion del detalle con movimiento 1
+    detalles = Cheqdet.objects.filter(foliodet=folio , movimiento=1).update(
+        idproducto = Productos.objects.get(idproducto=producto_id).idproducto,
+        descuento = 0,
+        precio = Productosdetalle.objects.get(idproducto=producto_id).precio,
+        impuesto1 = 0,
+        preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos,
+        modificdor = False
+    )
+    try:
+        detalles = Cheqdet.objects.filter(foliodet=folio , movimiento=1).update(
+            idproducto = Productos.objects.get(idproducto=producto_id).idproducto,
+            descuento = 0,
+            precio = Productosdetalle.objects.get(idproducto=producto_id).precio,
+            impuesto1 = 0,
+            preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos,
+            modificdor = False
+        )
+    except Exception as e:
+        return f"Error al actualizar: {e}"
 
 def mantenimiento_cheque(producto_id, cantidad, folio):
     pass
@@ -507,7 +512,7 @@ def test_producto_uno(modeladmin, request, queryset):
         # Emplezar por los detalles
         try:
             print(dev_conf.producto_uno)
-            mantenimiento_detalles(dev_conf.get_producto_uno, 1, cheques.folio)
+            mantenimiento_detalles(dev_conf.get_producto_uno, 1, cheques.folio, False)
             modeladmin.message_user(request, f"El mantenimiento del cheque {cheques.folio} se hizo correctamente.")
         except Exception as e:
             modeladmin.message_user(request, f"Error al modificar los detalles: {e}")
