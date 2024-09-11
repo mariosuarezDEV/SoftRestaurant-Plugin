@@ -501,7 +501,6 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
         detalles[0].idtipodescuento = ""
         detalles[0].preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
         detalles[0].save()
-        pass
     except Exception as e:
         return f"Error al modificar el detalle: {e}"
 
