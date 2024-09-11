@@ -495,7 +495,7 @@ def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
         except Exception as e:
             return f"Error al obtener el producto: {e}"
 
-        detalles = Cheqdet.objects.filter(foliodet=folio, movimiento=1).update(
+        Cheqdet.objects.filter(foliodet=folio, movimiento=1).update(
             idproducto=producto.idproducto,
             descuento=0,
             precio=Productosdetalle.objects.get(idproducto=producto_id).precio,
