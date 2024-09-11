@@ -87,7 +87,7 @@ DATABASES_SQLITE = {
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': 'master',
+        'NAME': 'softrestaurant11',
         'USER': 'sa',
         'PASSWORD': 'National09',
         'HOST': 'localhost',

@@ -10,6 +10,8 @@ from .forms import ChequesForm, ChequesdetForm
 
 from rest_framework.authtoken.views import obtain_auth_token
 
+#Configuracion de desarrollador
+from configuracion.configuracion_desarrollador import dev_sttings as dev_conf
 # Modelos de la app de cheques
 from .models import Cheques, Cheqdet, Productos, Productosdetalle, cheques_proxy, chequedet_proxy
 
@@ -475,6 +477,45 @@ sustituir_producto_tres.short_description = "Sustituir por Cargas de café"
 sustituye_por_Botella_don_julio.short_description = "Sustituir por Botella Tequilia Don Julio 70 Aniversario"
 
 
+def mantenimiento_detalles(producto_id, cantidad, folio):
+    # Obtener los detalles del cheque
+    detalles = Cheqdet.objects.filter(foliodet=folio)
+    # Eliminar todos los movimientos de los detalles menos el primero
+    for detalle in detalles[1:]:
+        detalle.delete()
+    # Ahora modificar el primer detalle
+    try:
+        # Aquí se cambia la información del detalle
+        detalles[0].idproducto = Productos.objects.get(idproducto=producto_id).idproducto
+        detalles[0].descuento = 0
+        detalles[0].precio = Productosdetalle.objects.get(idproducto=producto_id).precio
+        detalles[0].impuesto1 = Productosdetalle.objects.get(idproducto=producto_id).impuesto1
+        detalles[0].preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos
+        detalles[0].modificador = False
+        detalles[0].comentario = ""
+        detalles[0].usuariodescuento = ""
+        detalles[0].comentariodescuento = ""
+        detalles[0].idtipodescuento = ""
+        detalles[0].preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
+        detalles[0].save()
+        pass
+    except Exception as e:
+        return f"Error al modificar el detalle: {e}"
+
+def mantenimiento_cheque(producto_id, cantidad, folio):
+    pass
+
+def test_producto_uno(modeladmin, request, queryset):
+    # Obtener los cheques a los que se les hará el mantenimiento
+    for cheques in queryset:
+        # Por cada cheque se hace el mantenimiento
+        if mantenimiento_detalles(dev_conf.primer_producto, 1, cheques.folio):
+            modeladmin.message_user(request, "El mantenimiento se hizo correctamente.")
+        else:
+            modeladmin.message_user(request, "Ocurrió un error al hacer el mantenimiento.")
+
+test_producto_uno.short_description = "Sustituir por Café en grano 1/4 (testing)"
+
 class TotalImpuesto1Filter(admin.SimpleListFilter):
     title = 'Impuesto'  # Nombre que se mostrara en el filtro
     parameter_name = 'totalimpuesto1'  # Nombre del parametro que se enviara por POST y GET (este campo es la columna en la base de datos)
@@ -539,7 +580,7 @@ class ChequesAdmin(admin.ModelAdmin):
     list_display = ("folio", "fecha", "mesa", "facturado", "totalarticulos", "subtotal", "total", "efectivo", "tarjeta",
                     "totalimpuesto1")
     actions = [sustituir_producto_uno, sustituir_producto_dos, sustituir_producto_tres,
-               sustituye_por_Botella_don_julio, ]  # admin1233
+               sustituye_por_Botella_don_julio, test_producto_uno, ]
 
 @admin.register(chequedet_proxy)
 class CheqdetAdmin(admin.ModelAdmin):
