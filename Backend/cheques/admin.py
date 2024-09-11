@@ -487,26 +487,26 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
     for detalle in detalles[1:]:
         detalle.delete()
     # Ahora modificar el primer detalle
+    det = Cheqdet.objects.get(foliodet=folio)
+    print(det)
+    det.idproducto = Productos.objects.get(idproducto=producto_id).idproducto
+    print(f'Producto: {det.idproducto}')
+    det.descuento = 0
+    print(f'Descuento: {det.descuento}')
+    det.precio = Productosdetalle.objects.get(idproducto=producto_id).precio
+    print(f'Precio: {det.precio}')
+    det.impuesto1 = Productosdetalle.objects.get(idproducto=producto_id).impuesto1
+    print(f'Impuesto 1: {det.impuesto1}')
+    det.preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos
+    det.modificador = False
+    det.comentario = ""
+    det.usuariodescuento = ""
+    det.comentariodescuento = ""
+    det.idtipodescuento = ""
+    det.preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
     try:
-        # Modificar la información del detalle
-        det = Cheqdet.objects.get(foliodet=folio)
-        print(det)
-        det.idproducto = Productos.objects.get(idproducto=producto_id).idproducto
-        print(f'Producto: {det.idproducto}')
-        det.descuento = 0
-        print(f'Descuento: {det.descuento}')
-        det.precio = Productosdetalle.objects.get(idproducto=producto_id).precio
-        print(f'Precio: {det.precio}')
-        det.impuesto1 = Productosdetalle.objects.get(idproducto=producto_id).impuesto1
-        print(f'Impuesto 1: {det.impuesto1}')
-        det.preciosinimpuestos = Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos
-        det.modificador = False
-        det.comentario = ""
-        det.usuariodescuento = ""
-        det.comentariodescuento = ""
-        det.idtipodescuento = ""
-        det.preciocatalogo = Productosdetalle.objects.get(idproducto=producto_id).precio
         det.save()
+        return True
     except Exception as e:
         return f"Error al modificar el detalle: {e}"
 
