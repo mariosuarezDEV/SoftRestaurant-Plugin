@@ -498,8 +498,14 @@ def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
         modificdor=False
     )
     try:
+        # Obtener la instancia del producto
+        try:
+            producto = Productos.objects.get(idproducto=producto_id)
+        except Exception as e:
+            return f"Error al obtener el producto: {e}"
+
         detalles = Cheqdet.objects.filter(foliodet=folio, movimiento=1).update(
-            idproducto=Productos.objects.get(idproducto=producto_id),
+            idproducto=producto,
             descuento=0,
             precio=Productosdetalle.objects.get(idproducto=producto_id).precio,
             impuesto1=0,
