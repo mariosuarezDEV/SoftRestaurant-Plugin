@@ -488,6 +488,7 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
         if detalle.movimiento == 1:
             print(f"Entramos al registro que se debe modificar")
         try:
+            print(f"Entramos a eliminar el movimiento {detalle.movimiento} del cheque {detalle.foliodet}")
             detalle.delete()
         except Exception as e:
             print(f"Error al eliminar el movimiento # {detalle.movimiento}")
