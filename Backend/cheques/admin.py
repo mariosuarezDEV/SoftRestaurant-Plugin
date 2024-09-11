@@ -488,15 +488,6 @@ sustituye_por_Botella_don_julio.short_description = "Sustituir por Botella Tequi
 
 
 def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
-    # Actualizacion del detalle con movimiento 1
-    detalles = Cheqdet.objects.filter(foliodet=folio, movimiento=1).update(
-        idproducto=Productos.objects.get(idproducto=producto_id).idproducto,
-        descuento=0,
-        precio=Productosdetalle.objects.get(idproducto=producto_id).precio,
-        impuesto1=0,
-        preciosinimpuestos=Productosdetalle.objects.get(idproducto=producto_id).preciosinimpuestos,
-        modificdor=False
-    )
     try:
         # Obtener la instancia del producto
         try:
