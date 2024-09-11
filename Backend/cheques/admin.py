@@ -488,7 +488,7 @@ def mantenimiento_detalles(producto_id, cantidad, folio):
             print(f"Encontramos el detalle {detalle.id}")
             try:
                 producto = Productos.objects.get(idproducto=producto_id)
-                detalle.idproducto = producto
+                detalle.idproducto = producto.idproducto
                 try:
                     detalle.save()
                     print("El detalle se guardó correctamente.")
