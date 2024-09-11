@@ -514,6 +514,7 @@ def test_producto_uno(modeladmin, request, queryset):
         # Emplezar por los detalles
         try:
             mantenimiento_detalles(dev_conf.get_producto_uno, 1, cheques.folio)
+            modeladmin.message_user(request, f"El mantenimiento del cheque {cheques.folio} se hizo correctamente.")
         except Exception as e:
             modeladmin.message_user(request, f"Error al modificar los detalles: {e}")
 
