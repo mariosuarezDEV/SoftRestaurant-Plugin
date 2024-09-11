@@ -482,9 +482,9 @@ sustituye_por_Botella_don_julio.short_description = "Sustituir por Botella Tequi
 
 def mantenimiento_detalles(producto_id, cantidad, folio):
     # Obtener los detalles del cheque
-    detalles = Cheqdet.objects.filter(foliodet=folio).values()
+    detalles = Cheqdet.objects.filter(foliodet=folio)
     for detalle in detalles:
-        if detalle.movimiento == 1:
+        if detalle.movimiento == Decimal(1):
             print(f"El movimiento es {detalle.movimiento} (el que queremos) \n")
         else:
             print(f"El movimiento es {detalle.movimiento} \n")
