@@ -496,7 +496,7 @@ def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
             return f"Error al obtener el producto: {e}"
 
         detalles = Cheqdet.objects.filter(foliodet=folio, movimiento=1).update(
-            idproducto=producto,
+            idproducto=producto.idproducto,
             descuento=0,
             precio=Productosdetalle.objects.get(idproducto=producto_id).precio,
             impuesto1=0,
@@ -505,11 +505,6 @@ def mantenimiento_detalles(producto_id, cantidad, folio, es_inverso):
         )
     except Exception as e:
         return f"Error al actualizar: {e}"
-
-
-def mantenimiento_cheque(producto_id, cantidad, folio):
-    pass
-
 
 def test_producto_uno(modeladmin, request, queryset):
     # Obtener los cheques a los que se les hará el mantenimiento
