@@ -16,6 +16,8 @@ def actualizar_tabla(request):
     with connection.cursor() as cursor:
         cursor.execute("ALTER TABLE cheqdet ADD id BIGINT IDENTITY(1,1);")
         cursor.execute("ALTER TABLE cheqdet ADD CONSTRAINT PK_cheqdet_id PRIMARY KEY (id);")
+        cursor.execute("ALTER TABLE Productosdetalle ADD id BIGINT IDENTITY(1,1);")
+        cursor.execute("ALTER TABLE Productosdetalle ADD CONSTRAINT PK_Productosdetalle_id PRIMARY KEY (id);")
         cursor.execute("ALTER TABLE cheques ADD estado BIT DEFAULT 0;")
         cursor.execute("UPDATE cheques SET estado = 0;")
 
