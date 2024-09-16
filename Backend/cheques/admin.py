@@ -213,7 +213,7 @@ def sustituir_producto_tres(modeladmin, request, queryset):
         objeto.totalcortesiabebidas = 0
         objeto.totalcortesiaotros = 0
         objeto.totalalimentossindescuentos = 0
-        objeto.totalbebidasindescuentos = 0
+        objeto.totalbebidassindescuentos = 0
 
         objeto.totaldescuentoycortesia = 0
         objeto.totalalimentossindescuentos = 0
@@ -302,11 +302,9 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
         objeto.totalcortesiabebidas = 0
         objeto.totalcortesiaotros = 0
         objeto.totalalimentossindescuentos = 0
-        objeto.totalbebidasindescuentos = 0
+        objeto.totalbebidassindescuentos = 0
 
         objeto.totaldescuentoycortesia = 0
-        objeto.totalalimentossindescuentos = 0
-        objeto.totalbebidassindescuentos = 0
         objeto.totalotrossindescuentos = 0
         objeto.descuentocriterios = 0
 
@@ -339,7 +337,7 @@ def sustituir_producto_cuatro(modeladmin, request, queryset):
             cheqdet.idproducto = producto
             cheqdet.descuento = 0
             cheqdet.precio = productos.precio
-            cheqdet.impuesto1 = (productos.precio * Decimal(0.16))
+            cheqdet.impuesto1 = productos.impuesto1
             cheqdet.preciosinimpuestos = productos.preciosinimpuestos
             cheqdet.modificador = False
             cheqdet.comentario = ""
